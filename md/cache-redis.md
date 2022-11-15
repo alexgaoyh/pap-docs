@@ -1,5 +1,4 @@
 ## 概述
-[Gitee Links](https://gitee.com/alexgaoyh/pap-cache-spring-boot-starter)<br>
 
 
 ## String
@@ -1237,4 +1236,146 @@
 ## Stream(Redis5)
 ```html
 
+    /**
+     * 组信息
+     * @param cacheName
+     * @param key
+     * @return
+     */
+    default StreamInfo.XInfoGroups redisSmGroups(String cacheName, String key) {
+        return null;
+    }
+
+    /**
+     * 创建消费组
+     *
+     * @param cacheName
+     * @param key
+     * @param group
+     * @return
+     */
+    default String redisSmCreateGroup(String cacheName, String key, String group) {
+        return null;
+    }
+
+    /**
+     * stream 信息
+     *
+     * @param cacheName
+     * @param key
+     * @return
+     */
+    default StreamInfo.XInfoStream redisSmInfo(String cacheName, String key) {
+        return null;
+    }
+
+    /**
+     * 消费组信息
+     *
+     * @param cacheName
+     * @param key
+     * @param group
+     * @return
+     */
+    default StreamInfo.XInfoConsumers redisSmConsumers(String cacheName, String key, String group) {
+        return null;
+    }
+
+    /**
+     * 确认已消费
+     *
+     * @param cacheName
+     * @param key
+     * @param group
+     * @param recordIds
+     * @return
+     */
+    default Long redisSmAck(String cacheName, String key, String group, String... recordIds) {
+        return null;
+    }
+
+    /**
+     * 查询Group内，被消费者取走但还没有Ack的消息
+     *
+     * @param cacheName
+     * @param key
+     * @param group
+     * @return
+     */
+    default PendingMessagesSummary redisSmPending(String cacheName, String key, String group) {
+        return null;
+    }
+
+    /**
+     * 查看没有ack消息的列表
+     *
+     * @param cacheName
+     * @param key
+     * @param consumerGroup
+     * @param consumerName
+     * @return
+     */
+    default PendingMessages redisSmPending(String cacheName, String key, String consumerGroup, String consumerName) {
+        return null;
+    }
+
+    /**
+     * 添加消息
+     *
+     * @param cacheName
+     * @param key
+     * @param field
+     * @param value
+     * @return
+     */
+    default String redisSmAdd(String cacheName, String key, String field, Object value) {
+        return null;
+    }
+
+    /**
+     * 删除消息，这里的删除仅仅是设置了标志位，不影响消息总长度
+     * 消息存储在stream的节点下，删除时仅对消息做删除标记，当一个节点下的所有条目都被标记为删除时，销毁节点
+     *
+     * @param cacheName
+     * @param key
+     * @param recordIds
+     * @return
+     */
+    default Long redisSmDel(String cacheName, String key, String... recordIds) {
+        return null;
+    }
+
+    /**
+     * 长度
+     *
+     * @param cacheName
+     * @param key
+     * @return
+     */
+    default Long redisSmLen(String cacheName, String key) {
+        return null;
+    }
+
+    /**
+     * 从头开始读
+     *
+     * @param cacheName
+     * @param key
+     * @return
+     */
+    default List<MapRecord<String, Object, Object>> redisSmRead(String cacheName, String key) {
+        return null;
+    }
+
+    /**
+     * 从指定的 recordId 开始读
+     *
+     * @param cacheName
+     * @param key
+     * @param recordId
+     * @return
+     */
+    default List<MapRecord<String, Object, Object>> redisSmRead(String cacheName, String key, String recordId) {
+        return null;
+    }
 ```
