@@ -1379,3 +1379,125 @@
         return null;
     }
 ```
+## Redis 分布式锁实现
+    1、加了Redis分布式锁，如果出现异常的话，可能无法释放锁，所以在代码层面在finally释放锁。
+    2、防止因为异常导致代码没有执行到finally，设置的Key需要添加过期时间。
+    3、释放锁时，需要给Key设置Value值，在释放锁的时候时候，校验一下Value是否一致，防止是放错别人设置的锁。
+    4、确保判断和删除两条Redis命令是原子的，通过Lua脚本完成。
+
+    关于单机Redis下的分布式锁的实现如此。
+      其实还是会有问题：
+          1、Key过期了，但是业务还没执行完，这就要对Key进行续期；（这个问题换个角度，如果过期时间设置的很大，是不是就不是问题了）
+              或者类似把锁保存在一个数据结构里，比如 HashMap，定时任务定时扫描这个map， 对每个锁进行续锁操作，部分代码如下：
+              private final Map<String, RedisLock> locks = new ConcurrentHashMap<>();
+              private static final String RENEW_LOCK_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('expire', KEYS[1], ARGV[2]) else return 0 end";
+              redisTemplate.execute(renewLockScript, Collections.singletonList(lockKey), value, String.valueOf(expireAfter));
+
+          2、单机Redis是CP的，集群Redis是AP。主从异步复制可能会导致锁丢失；（正因为如此，Redis作者antirez基于分布式环境下提出了一种更高级的分布式锁的实现方式:Redlock。）
+```html
+@GetMapping("/lock")
+public String lock(){
+	String value = new StringBuilder().append(Thread.currentThread().getId()).append(Math.random()).toString();
+	boolean lock = false;
+	try {
+		lock = RedisLockUtil.getLockByLua(redisTemplate, "1", value, 30);
+		if(lock){
+			logger.info("Thread:{}获取锁成功",Thread.currentThread().getId());
+			logger.info("Thread:{}执行业务逻辑中...",Thread.currentThread().getId());
+			Thread.sleep(5000);
+        } else {
+			logger.info("Thread:{}获取锁失败",Thread.currentThread().getId());
+        }
+    } catch (InterruptedException e) {
+		e.printStackTrace();
+    } finally {
+		if(lock){
+			RedisLockUtil.releaseLockByLua(redisTemplate, "1", value);
+			logger.info("Thread:{}释放锁",Thread.currentThread().getId());
+        }
+    }
+	return "lock over";
+}
+```
+```html
+public class RedisLockUtil {
+
+    private static final String LOCK_LUA = "script/lua/redis-lock.lua";
+
+    private static final String LOCK_RENEW_LUA = "script/lua/redis-lock-renew.lua";
+
+    private static final String UNLOCK_LUA = "script/lua/redis-unlock.lua";
+
+    private static final DefaultRedisScript<Boolean> LOCK_LUA_SCRIPT;
+
+    private static final DefaultRedisScript<Boolean> LOCK_RENEW_LUA_SCRIPT;
+
+    private static final DefaultRedisScript<Boolean> UNLOCK_LUA_SCRIPT;
+
+    static {
+        LOCK_LUA_SCRIPT = new DefaultRedisScript<>();
+        LOCK_LUA_SCRIPT.setScriptSource(new ResourceScriptSource(new ClassPathResource(LOCK_LUA)));
+        LOCK_LUA_SCRIPT.setResultType(Boolean.class);
+
+        LOCK_RENEW_LUA_SCRIPT = new DefaultRedisScript<>();
+        LOCK_RENEW_LUA_SCRIPT.setScriptSource(new ResourceScriptSource(new ClassPathResource(LOCK_RENEW_LUA)));
+        LOCK_RENEW_LUA_SCRIPT.setResultType(Boolean.class);
+
+        UNLOCK_LUA_SCRIPT = new DefaultRedisScript<>();
+        UNLOCK_LUA_SCRIPT.setScriptSource(new ResourceScriptSource(new ClassPathResource(UNLOCK_LUA)));
+        UNLOCK_LUA_SCRIPT.setResultType(Boolean.class);
+    }
+
+    /**
+     * 解锁
+     *
+     * @param redisTemplate
+     * @param lockKey
+     * @param value
+     * @return boolean
+     * @description 使用LUA脚本释放锁, 原子操作
+     **/
+    public static boolean releaseLockByLua(RedisTemplate<String, Object> redisTemplate, String lockKey, String value) {
+        return redisTemplate.execute(UNLOCK_LUA_SCRIPT, Collections.singletonList(lockKey), value);
+    }
+
+    /**
+     * 加锁
+     *
+     * @param redisTemplate
+     * @param lockKey
+     * @param value
+     * @param expireTime
+     * @return boolean
+     * @description 使用LUA脚本获取锁, 原子操作。过期时间单位为秒
+     **/
+    public static boolean getLockByLua(RedisTemplate<String, Object> redisTemplate, String lockKey, String value, int expireTime) {
+        return redisTemplate.execute(LOCK_LUA_SCRIPT, Collections.singletonList(lockKey), value, expireTime);
+    }
+
+    /**
+     * 续期
+     *
+     *  注意这里的续期功能，可以把锁的信息保存在一个数据结构里，比如 HashMap，定时任务定时扫描这个map， 对每个锁进行续锁操作，处理完之后把信息删除。
+     *      private final Map<String, RedisLock> locks = new ConcurrentHashMap<>();
+     *
+     * @param redisTemplate
+     * @param lockKey
+     * @param value
+     * @param expireTime
+     * @return
+     */
+    public static boolean getLockReNewByLua(RedisTemplate<String, Object> redisTemplate, String lockKey, String value, int expireTime) {
+        return redisTemplate.execute(LOCK_RENEW_LUA_SCRIPT, Collections.singletonList(lockKey), value, expireTime);
+    }
+}
+```
+```html
+if redis.call('setNx',KEYS[1],ARGV[1]) == 1 then return redis.call('expire',KEYS[1],ARGV[2]) else return 0 end
+```
+```html
+if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('expire', KEYS[1], ARGV[2]) else return 0 end
+```
+```html
+if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end
+```
