@@ -2,6 +2,7 @@
 
 
 ## String
+
 ```html
 
     /**
@@ -102,7 +103,9 @@
 
     // redis gene end
 ```
+
 ## Hash
+
 ```html
 
     /**
@@ -298,7 +301,9 @@
     }
 
 ```
+
 ## List
+
 ```html
 
     /**
@@ -513,7 +518,9 @@
     }
 
 ```
+
 ## Set
+
 ```html
 
     /**
@@ -740,7 +747,9 @@
     }
 
 ```
+
 ## ZSet
+
 ```html
 
     /**
@@ -1046,7 +1055,9 @@
     // zremrangebylex zlexcount zpopmax zpopmin bzpopmax bzpopmin 命令需要提升 redis 相关的 JAR 的版本
 
 ```
+
 ## Bitmaps
+
 ```html
 
     /**
@@ -1130,7 +1141,9 @@
     }
 
 ```
+
 ## HyperLogLog
+
 ```html
 
     /**
@@ -1177,7 +1190,9 @@
     }
 
 ```
+
 ## GEO
+
 ```html
 
     /**
@@ -1233,7 +1248,9 @@
     }
 
 ```
+
 ## Stream(Redis5)
+
 ```html
 
     /**
@@ -1379,7 +1396,9 @@
         return null;
     }
 ```
+
 ## Redis 分布式锁实现
+
     1、加了Redis分布式锁，如果出现异常的话，可能无法释放锁，所以在代码层面在finally释放锁。
     2、防止因为异常导致代码没有执行到finally，设置的Key需要添加过期时间。
     3、释放锁时，需要给Key设置Value值，在释放锁的时候时候，校验一下Value是否一致，防止是放错别人设置的锁。
@@ -1500,4 +1519,189 @@ if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('expire', KEYS[1
 ```
 ```html
 if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end
+```
+
+## Redis 滑动时间窗口限流
+
+```html
+public class RedisLimitComponent {
+
+    /**
+     * redis-key: 滑动时间窗开始时间key
+     */
+    private static final String LIMIT_TIME_PREFIX = "limit:slide-window:";
+
+    /**
+     * 滑动时间窗限流脚本
+     */
+    private static final String SLIDING_WINDOW_LIMIT_SCRIPT_LUA = "script/lua/sliding-window-limit.lua";
+
+    /**
+     * 滑动时间窗限流
+     */
+    private static final DefaultRedisScript<Boolean> SLIDING_WINDOW_LIMIT_SCRIPT;
+
+    static {
+        SLIDING_WINDOW_LIMIT_SCRIPT = new DefaultRedisScript<>();
+        SLIDING_WINDOW_LIMIT_SCRIPT.setScriptSource(new ResourceScriptSource(new ClassPathResource(SLIDING_WINDOW_LIMIT_SCRIPT_LUA)));
+        SLIDING_WINDOW_LIMIT_SCRIPT.setResultType(Boolean.class);
+    }
+
+    private RedisTemplate<String, Object> redisTemplate;
+
+    public RedisLimitComponent(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    /**
+     * 滑动时间窗限流
+     *
+     * @param limitKey     限流key
+     * @param maxRequest   一个时间窗口内最大请求次数
+     * @param windowLength 时间窗口大小(单位：秒)
+     * @return java.lang.Boolean false 表示被限流，true表示没被限流
+     * @author wenpanfeng 2022/7/4 21:22
+     */
+    public Boolean windowLimit(String limitKey, int maxRequest, int windowLength) {
+        if (limitKey == null || "".equals(limitKey)) {
+            throw new LimitException("limitKey can not be null, please check param.");
+        }
+        if (maxRequest <= 0) {
+            throw new LimitException("maxRequest must be greater than 0, please check param.");
+        }
+        if (windowLength <= 0) {
+            throw new LimitException("windowLength must be greater than 0, please check param.");
+        }
+        // 获取key名，一个时间窗口开始时间(限流开始时间)和一个时间窗口内请求的数量累计(限流累计请求数)
+        List<String> keys = new ArrayList<>();
+        keys.add(LIMIT_TIME_PREFIX + limitKey);
+        // 将秒转换为毫秒
+        windowLength = windowLength * 1000;
+        // 传入参数，限流最大请求数，当前时间戳，一个时间窗口时间(毫秒)(限流时间)
+        return redisTemplate.execute(SLIDING_WINDOW_LIMIT_SCRIPT, keys, maxRequest,
+                SystemClock.currentTimeMillis(),
+                windowLength);
+    }
+```
+```html
+-- sliding-window-limit.lua
+-- key对应着某个接口, value对应着这个接口的上一次请求时间
+local unique_identifier = KEYS[1]
+-- 上次请求时间key
+local timeKey = 'lastTime'
+-- 时间窗口内累计请求数量key
+local requestKey = 'requestCount'
+-- 限流大小,限流最大请求数
+local maxRequest = ARGV[1]
+-- 当前请求时间戳,也就是请求的发起时间（毫秒）
+local nowTime = ARGV[2]
+-- 窗口长度(毫秒)
+local windowLength = ARGV[3]
+
+-- 限流开始时间
+local currentTime = redis.call('HGET', unique_identifier, timeKey) or 0
+-- 限流累计请求数
+local currentRequest = redis.call('HGET', unique_identifier, requestKey) or 0
+
+-- 当前时间在滑动窗口内
+if tonumber(currentTime) + tonumber(windowLength) > tonumber(nowTime) then
+    if tonumber(currentRequest) + 1 > tonumber(maxRequest) then
+        return 0;
+    else
+        -- 在时间窗口内且请求数没超，请求数加一
+        redis.call('HINCRBY', unique_identifier, requestKey, 1)
+        return 1;
+    end
+else
+    -- 超时后重置，开启一个新的时间窗口
+    redis.call('HSET', unique_identifier, timeKey, nowTime)
+    redis.call('HSET', unique_identifier, requestKey, 0)
+    -- 窗口过期时间
+    local expireTime = windowLength / 1000;
+    redis.call('EXPIRE', unique_identifier, expireTime)
+    redis.call('HINCRBY', unique_identifier, requestKey, 1)
+    return 1;
+end
+
+```
+
+## Redis 布隆过滤器 + BitMap
+
+```html
+public class CustomerBloomFilterConstant {
+
+    // 设置布隆过滤器的大小
+    private static final int DEFAULT_SIZE = 2 << 24;
+    // 产生随机数的种子，可产生6个不同的随机数产生器
+    private static final int[] SEEDS = new int[]{7, 11, 13, 31, 37, 61};
+
+    // 根据随机数的种子，创建6个哈希函数
+    private static final SimpleHash[] func = new SimpleHash[SEEDS.length];
+
+    static {
+        for (int i = 0; i < SEEDS.length; i++) {
+            func[i] = new SimpleHash(DEFAULT_SIZE, SEEDS[i]);
+        }
+    }
+
+    public static List<Integer> getHash(String value) {
+        List<Integer> hashIntList = new ArrayList<>();
+        for (SimpleHash f : func) {
+            hashIntList.add(f.hash(value));
+        }
+        return hashIntList;
+    }
+
+    public static class SimpleHash {
+
+        private int cap;
+        private int seed;
+
+        /***
+         * 默认构造器，哈希表长默认为DEFAULT_SIZE大小，此哈希函数的种子为seed
+         */
+        public SimpleHash(int cap, int seed) {
+            this.cap = cap;
+            this.seed = seed;
+        }
+
+        public int hash(String value) {
+            int result = 0;
+            int len = value.length();
+            for (int i = 0; i < len; i++) {
+                result = seed * result + value.charAt(i);
+            }
+            // 产生单个信息指纹
+            return (cap - 1) & result;
+        }
+
+    }
+}
+```
+```html
+@Override
+public void redisVCustomerBloomFilterAdd(String cacheName, String key, String value) {
+    List<Integer> hashList = CustomerBloomFilterConstant.getHash(value);
+    if (hashList != null && hashList.size() > 0) {
+        for (Integer hash : hashList) {
+            redisTemplate.opsForValue().setBit(cacheNameKey(cacheName, key), hash, true);
+        }
+    }
+
+}
+
+@Override
+public boolean redisVCustomerBloomFilterContains(String cacheName, String key, String value) {
+    boolean ret = true;
+
+    List<Integer> hashList = CustomerBloomFilterConstant.getHash(value);
+    if (hashList != null && hashList.size() > 0) {
+        for (Integer hash : hashList) {
+            ret = ret && redisTemplate.opsForValue().getBit(cacheNameKey(cacheName, key), hash);
+        }
+    } else {
+        ret = false;
+    }
+    return ret;
+}
 ```
