@@ -20,7 +20,11 @@
         5、建议对现有方法进行改造，比如 update 方法的返回值建议直接返回对象，这样的话， @CachePut 注解就可以使用（不建议）。
           或者说不使用 @CachePut 注解， 更新操作的话，直接删除缓存。
 
-## 二级缓存（本地缓存Caffeine + 远程缓存Redis）
+    二级缓存
+        对于二级缓存，当前的使用只是建议减少 redis 的网络开销，将部分数据放到 caffeine 里面，这里建议 caffeine 的过期时间远小于 redis。        
+
+
+## 二级缓存（Caffeine + Redis）
 ```html
 package com.pap.cache;
 

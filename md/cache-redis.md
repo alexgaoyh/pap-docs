@@ -1,5 +1,32 @@
 ## 概述
 
+    缓存一致性
+        
+        对于写请求操作，需要明确规则是： 先更新db，再删除缓存（将变更写入到数据库中， 删除缓存里对应的数据）
+        spring-cache中的@CacheEvict注解，就是后删除缓存，该注解默认在更新数据库之后进行缓存的清除。
+
+        @CachePut 用于注解新增数据方法时，是不会出现双不一致问题的。切记不要将此注解用于更新数据的方法之上，因为很明显，会导致不一致问题！
+
+        极端情况下可以做一个双删，在 缓存删除方法上加一个消息，隔一段时间再删。
+        同时监听 缓存服务的异常。
+
+        建议 selectById 方法上可以使用 @Cacheable(key = "#id")
+        建议 updateById  deleteById 方法上可以使用 @CacheEvict(key = "#id")
+        不使用 @CachePut  
+
+    缓存注解与事务注解：
+        @Transactional 和 @Cacheable 如果同时存在的话，切面的执行顺序是？
+    
+            如果一个方法上同时存在 @Transactional 和 @Cacheable ，且没有指定事务切面和缓存切面的 Order，那么先执行 @Cacheable 对应的切面，再执行 @Transactional 对应的切面。
+            我们知道，在 Spring 里面，如果一个方法，存在多个切面，那么是按照切面的 Order 顺序来执行的：Order 值越小，那么切面越先执行（越后结束）。
+            @Transactional 和 @Cacheable 都是通过 AOP 来实现的，那就说明 @Transactional 和 @Cacheable 都对应了一个切面。
+            如果不指定事务切面和缓存切面的 Order，它们的 Order 都将是默认值 —— Integer.MAX_VALUE，即最小优先级。
+            如果两个切面 Order 相同，那么是按照切面的字母顺序来执行的切面。
+            所以如果一个方法上同时存在 @Transactional（对应切面为 TransactionInterceptor）和 @Cacheable （对应切面为 CacheInterceptor），且如果没有指定事务切面和缓存切面的 Order，
+            因为 CacheInterceptor 的字母顺序在 TransactionInterceptor 之前，所以先执行 @Cacheable 对应的切面，再执行 @Transactional 对应的切面。
+
+            一般将事务切面放到最贴近原本方法的那一层，即事务切面优先级最低，最后执行（最先结束）。推荐把事务切面放在最内层执行，从面避免其他切面影响到事务切面（防御型编程）。
+
 
 ## String
 
@@ -1250,6 +1277,133 @@
 ```
 
 ## Stream(Redis5)
+
+    消息队列
+        获取消息对了的相关信息，并且发送消息，接下来代码包括消息监听相关功能
+
+            cacheOperation.redisSmInfo("test", "stream");
+            cacheOperation.redisSmAdd("test", "stream", "a", "123456");
+
+```html
+package com.pap.cache.config.stream.test;
+
+import com.pap.cache.config.stream.test.listener.RedisStreamTestListener;
+import com.pap.cache.util.CacheOperation;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.stream.*;
+import org.springframework.data.redis.stream.StreamMessageListenerContainer;
+import org.springframework.data.redis.stream.Subscription;
+
+import java.time.Duration;
+
+/**
+ *
+ */
+// @Configuration
+public class RedisStreamTestConfig {
+
+    /**
+     * 解析消息队列 进行绑定 多个消息队列的话可以设置多个 Bean
+     *
+     * @param factory
+     * @return
+     */
+    @Bean
+    public Subscription subscriptionWithTestStream(RedisConnectionFactory factory, CacheOperation cacheOperation) {
+        String cacheName = "test";
+        String key = "stream";
+        String consumerGroup = "consumerGroup";
+        // TODO 这里可以根据需求进行调整，比如多个服务的话，这里可以获取到服务对应的 ip+port 信息，并设置为消费者名称，便于后续维护管理。
+        String consumerName = "consumerName";
+
+        // 如果没有当前的消费组的话，则进行创建
+        boolean hasKey = cacheOperation.hasKey(cacheName, key);
+        if (hasKey) {
+            StreamInfo.XInfoGroups xInfoGroups = cacheOperation.redisSmGroups(cacheName, key);
+            if (xInfoGroups == null || xInfoGroups.size() == 0 || !xInfoGroups.stream().filter(m -> m.groupName().equals(consumerGroup)).findAny().isPresent()) {
+                cacheOperation.redisSmCreateGroup(cacheName, key, consumerGroup);
+            }
+        } else {
+            cacheOperation.redisSmCreateGroup(cacheName, key, consumerGroup);
+        }
+
+        //创建容器
+        StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, MapRecord<String, String, String>> options = StreamMessageListenerContainer
+                .StreamMessageListenerContainerOptions
+                .builder()
+                .pollTimeout(Duration.ofSeconds(1))
+                .build();
+
+        StreamMessageListenerContainer<String, MapRecord<String, String, String>> listenerContainer = StreamMessageListenerContainer.create(factory, options);
+        //构建流读取请求
+        StreamMessageListenerContainer.ConsumerStreamReadRequest<String> build = StreamMessageListenerContainer.StreamReadRequest
+                .builder(StreamOffset.create(cacheOperation.cacheNameKey(cacheName, key), ReadOffset.lastConsumed()))
+                .errorHandler((error) -> {
+                })
+                .cancelOnError(e -> false)
+                .consumer(Consumer.from(consumerGroup, consumerName))
+                .autoAcknowledge(true)
+                .build();
+
+        //将监听类绑定到相应的stream流上
+        Subscription subscription = listenerContainer.register(build, new RedisStreamTestListener(cacheName, key, consumerGroup, consumerName, cacheOperation));
+        //启动监听
+        listenerContainer.start();
+
+        return subscription;
+    }
+
+}
+
+```
+
+```html
+package com.pap.cache.config.stream.test.listener;
+
+import com.pap.cache.util.CacheOperation;
+import org.springframework.data.redis.connection.stream.MapRecord;
+import org.springframework.data.redis.stream.StreamListener;
+
+/**
+ * 监听 根据需求进行消息的 ack 和 del
+ */
+public class RedisStreamTestListener implements StreamListener<String, MapRecord<String, String, String>> {
+    private final String cacheName;
+
+    private final String key;
+
+    private final String consumerGroup;
+
+    private final String consumerName;
+
+    private final CacheOperation cacheOperation;
+
+    public RedisStreamTestListener(String cacheName, String key, String consumerGroup, String consumerName, CacheOperation cacheOperation) {
+        this.cacheName = cacheName;
+        this.key = key;
+        this.consumerGroup = consumerGroup;
+        this.consumerName = consumerName;
+        this.cacheOperation = cacheOperation;
+    }
+
+    @Override
+    public void onMessage(MapRecord<String, String, String> entries) {
+        System.out.println(entries);
+        boolean operationSuccess = true;
+        if (true) {
+            // ack msg depends on config autoAcknowledge method
+            // del msg
+            cacheOperation.redisSmDel(cacheName, key, entries.getId().getValue());
+        } else {
+            // 业务操作，消费者没有正常消费。
+        }
+
+        // TODO 根据需要，针对没有正常ack 的消息进行额外处理，redisSmPending， 这里的处理逻辑也可以移动到其他地方，这里只是做一个备注。
+    }
+}
+
+```
 
 ```html
 
