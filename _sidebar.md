@@ -20,6 +20,7 @@
       * [Nested Object](md/elasticsearch/nested.md)
       * [父子文档](md/elasticsearch/parent_child.md)
       * [completion suggest](md/elasticsearch/completion_suggest.md)
+      * [dynamic_templates](md/elasticsearch/dynamic_templates.md)
       * [实际场景-具体应用](md/elasticsearch/using_case.md)
 * 算法
     * [算法](md/algorithm/algorithm.md)
