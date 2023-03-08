@@ -23,6 +23,7 @@
       * [dynamic_templates](md/elasticsearch/dynamic_templates.md)
       * [实际场景-具体应用](md/elasticsearch/using_case.md)
       * [_bulk 使用与实战](md/elasticsearch/bulk.md)
+      * [Enrich-Processor(Join](md/elasticsearch/Enrich-Processor.md)
 * 算法
     * [算法](md/algorithm/algorithm.md)
         * [分类 - 朴素贝叶斯](md/algorithm/algorithm-naivebayes.md)
