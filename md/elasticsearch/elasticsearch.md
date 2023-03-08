@@ -17,3 +17,4 @@ Spring Boot 自定义 Starter 组件 [pap-es-spring-boot-starter](https://gitee.
 - 父子文档
 - completion suggest
 - 实际场景-具体应用
+- bulk批处理
