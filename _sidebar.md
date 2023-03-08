@@ -29,4 +29,5 @@
         * [分类 - 朴素贝叶斯](md/algorithm/algorithm-naivebayes.md)
         * [分类 - KNN](md/algorithm/algorithm-knn.md)
         * [优化 - DE](md/algorithm/algorithm-de.md)
+        * [字典数据结构 - Darts-Java-Pos](md/algorithm/algorithm-darts-java-pos.md)
         * [字典数据结构 - FST](md/algorithm/algorithm-fst.md)
