@@ -31,3 +31,4 @@
         * [优化 - DE](md/algorithm/algorithm-de.md)
         * [字典数据结构 - Darts-Java-Pos](md/algorithm/algorithm-darts-java-pos.md)
         * [字典数据结构 - FST](md/algorithm/algorithm-fst.md)
+        * [图数据结构 - 路径查找](md/algorithm/algorithm-graph-path-search.md)
