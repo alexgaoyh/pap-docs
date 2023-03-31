@@ -19,3 +19,4 @@ Spring Boot 自定义 Starter 组件 [pap-es-spring-boot-starter](https://gitee.
 - 实际场景-具体应用
 - bulk批处理
 - Enrich Processor(MYSQL.Join)
+- 长拼音序列切分搜索自定义分词插件
