@@ -23,7 +23,7 @@
       * [dynamic_templates](md/elasticsearch/dynamic_templates.md)
       * [实际场景-具体应用](md/elasticsearch/using_case.md)
       * [_bulk 使用与实战](md/elasticsearch/bulk.md)
-      * [Enrich-Processor(Join)](md/elasticsearch/Enrich-Processor.md)
+      * [Enrich-Processor(Mysql.Join)](md/elasticsearch/Enrich-Processor.md)
       * [长拼音序列切分搜索自定义分词插件](md/elasticsearch/pinyin-cutting.md)
 * 算法
     * [算法](md/algorithm/algorithm.md)
