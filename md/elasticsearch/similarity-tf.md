@@ -1,6 +1,6 @@
-# ElasticSearch 自定义相似度插件
+# ElasticSearch 自定义相似度插件-根据命中数排序
 
-## 自定义相似度算法(只考虑词频)
+## 自定义相似度算法(只考虑词频/命中数)
 
 &ensp;&ensp;在使用Elasticsearch的时候，针对排序结果，有些时候只关注对应的词出现的次数，相当于只考虑词频，这个时候就可以使用当前的插件。
 &ensp;&ensp;当前插件继承了 TFIDFSimilarity 类， TfSimilarity 只考虑了词频，并将其注册到插件中。
