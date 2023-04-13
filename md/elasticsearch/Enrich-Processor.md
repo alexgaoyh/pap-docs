@@ -1,10 +1,11 @@
-# Elasticsearch ÀûÓÃ Enrich Processor ÊµÏÖ MYSQL Join µÄ²Ù×÷£¬Ö§³ÖNestedÀàĞÍ£¬¾ßÌåÓ¦ÓÃ¡£
-    ÔÚ¹ØÏµĞÍÊı¾İ¿âÖĞ£¬±í¹ØÁªÊÇ·Ç³£³£¼ûµÄ²Ù×÷£¬·Åµ½ Elasticsearch µÄ³¡¾°£¬Ïàµ±ÓÚ¿çË÷Òı½øĞĞÊı¾İ¹ØÁª£¬±¾ÎÄÊ¹ÓÃ Enrich Processor£¬ÔÚÊı¾İÔ¤´¦Àí½×¶Î°ÑÊı¾İ½øĞĞÎ¬»¤£¬×îÖÕÊ¹µÃÊı¾İÔÚ´æ´¢µÄÊ±ºò£¬¾ÍÊÇÒÑ¾­½øĞĞ¹ıÊı¾İ¹ØÁªµÄ¡£
-    
-    ¾ÙÒ»¸öºÜ³£¼ûµÄ Ê¡ÊĞÇøĞĞÕşÇøÓòÀ©³äµÄÀı×Ó(Í¬ÀíÀàËÆÓÚ ×Öµä ´¦ÀíµÄ³¡¾°)£¬ÔÚ±£´æÊı¾İµÄÊ±ºò£¬°Ñ¹ØÁªµÄÊı¾İ²éÑ¯³öÀ´²¢´æµ½ document ÖĞ¡£
+# Elasticsearch åˆ©ç”¨ Enrich Processor å®ç° MYSQL Join çš„æ“ä½œï¼Œæ”¯æŒNestedç±»å‹ï¼Œå…·ä½“åº”ç”¨ã€‚
 
-    1¡¢³õÊ¼»¯£º
-        ¼ÙÉè³õÊ¼»¯Ò»¸öË÷Òı£º dict-detail£¬Ë÷ÒıÖĞ°üº¬µÄÊı¾İÖµÈçÏÂËùÊ¾£¬¶¼ÊÇ keyword ÀàĞÍ£¬Êı¾İÖµÈçÏÂËùÊ¾¡£
+    åœ¨å…³ç³»å‹æ•°æ®åº“ä¸­ï¼Œè¡¨å…³è”æ˜¯éå¸¸å¸¸è§çš„æ“ä½œï¼Œæ”¾åˆ° Elasticsearch çš„åœºæ™¯ï¼Œç›¸å½“äºè·¨ç´¢å¼•è¿›è¡Œæ•°æ®å…³è”ï¼Œæœ¬æ–‡ä½¿ç”¨ Enrich Processorï¼Œåœ¨æ•°æ®é¢„å¤„ç†é˜¶æ®µæŠŠæ•°æ®è¿›è¡Œç»´æŠ¤ï¼Œæœ€ç»ˆä½¿å¾—æ•°æ®åœ¨å­˜å‚¨çš„æ—¶å€™ï¼Œå°±æ˜¯å·²ç»è¿›è¡Œè¿‡æ•°æ®å…³è”çš„ã€‚
+    
+    ä¸¾ä¸€ä¸ªå¾ˆå¸¸è§çš„ çœå¸‚åŒºè¡Œæ”¿åŒºåŸŸæ‰©å……çš„ä¾‹å­(åŒç†ç±»ä¼¼äº å­—å…¸ å¤„ç†çš„åœºæ™¯)ï¼Œåœ¨ä¿å­˜æ•°æ®çš„æ—¶å€™ï¼ŒæŠŠå…³è”çš„æ•°æ®æŸ¥è¯¢å‡ºæ¥å¹¶å­˜åˆ° document ä¸­ã€‚
+
+    1ã€åˆå§‹åŒ–ï¼š
+        å‡è®¾åˆå§‹åŒ–ä¸€ä¸ªç´¢å¼•ï¼š dict-detailï¼Œç´¢å¼•ä¸­åŒ…å«çš„æ•°æ®å€¼å¦‚ä¸‹æ‰€ç¤ºï¼Œéƒ½æ˜¯ keyword ç±»å‹ï¼Œæ•°æ®å€¼å¦‚ä¸‹æ‰€ç¤ºã€‚
     
             public DictDetail(String dictDetailId, String dictId, String dictCode, String dictName, String dictDetailCode, String dictDetailName) {
                 this.dictDetailId = dictDetailId;
@@ -15,19 +16,19 @@
                 this.dictDetailName = dictDetailName;
             }
     
-            DictDetail dictDetail2 = new DictDetail("410102", "410100", "410100", "Ö£ÖİÊĞ", "410102", "ÖĞÔ­Çø");
-            DictDetail dictDetail3 = new DictDetail("410103", "410100", "410100", "Ö£ÖİÊĞ", "410103", "¶şÆßÇø");
-            DictDetail dictDetail4 = new DictDetail("410104", "410100", "410100", "Ö£ÖİÊĞ", "410104", "¹Ü³Ç»Ø×åÇø");
-            DictDetail dictDetail5 = new DictDetail("410105", "410100", "410100", "Ö£ÖİÊĞ", "410105", "½ğË®Çø");
-            DictDetail dictDetail6 = new DictDetail("410106", "410100", "410100", "Ö£ÖİÊĞ", "410106", "ÉÏ½ÖÇø");
-            DictDetail dictDetail8 = new DictDetail("410108", "410100", "410100", "Ö£ÖİÊĞ", "410108", "»İ¼ÃÇø");
+            DictDetail dictDetail2 = new DictDetail("410102", "410100", "410100", "éƒ‘å·å¸‚", "410102", "ä¸­åŸåŒº");
+            DictDetail dictDetail3 = new DictDetail("410103", "410100", "410100", "éƒ‘å·å¸‚", "410103", "äºŒä¸ƒåŒº");
+            DictDetail dictDetail4 = new DictDetail("410104", "410100", "410100", "éƒ‘å·å¸‚", "410104", "ç®¡åŸå›æ—åŒº");
+            DictDetail dictDetail5 = new DictDetail("410105", "410100", "410100", "éƒ‘å·å¸‚", "410105", "é‡‘æ°´åŒº");
+            DictDetail dictDetail6 = new DictDetail("410106", "410100", "410100", "éƒ‘å·å¸‚", "410106", "ä¸Šè¡—åŒº");
+            DictDetail dictDetail8 = new DictDetail("410108", "410100", "410100", "éƒ‘å·å¸‚", "410108", "æƒ æµåŒº");
 
-    2¡¢Ö´ĞĞĞ§¹ûÕ¹Ê¾£¨ĞèÒªÓÅÏÈÖ´ĞĞ 3.1¡¢3.2¡¢3.3 ²¿·ÖµÄÃüÁî£©£º
-        2.1¡¢ÎÄµµ´´½¨£º
+    2ã€æ‰§è¡Œæ•ˆæœå±•ç¤ºï¼ˆéœ€è¦ä¼˜å…ˆæ‰§è¡Œ 3.1ã€3.2ã€3.3 éƒ¨åˆ†çš„å‘½ä»¤ï¼‰ï¼š
+        2.1ã€æ–‡æ¡£åˆ›å»ºï¼š
             PUT http://localhost:9200/test-dict-detail/_doc/1?pipeline=enrich-dict-detail-id-policy-pipeline
                 {
                     "dictDetailId": "410102",
-                    "comment": "Ï£Íû´´½¨Ö®ºóÄÜ¹»³öÏÖdictDetailId¶ÔÓ¦µÄÀ©Õ¹×ÖµäĞÅÏ¢dictDetailId_enriched",
+                    "comment": "å¸Œæœ›åˆ›å»ºä¹‹åèƒ½å¤Ÿå‡ºç°dictDetailIdå¯¹åº”çš„æ‰©å±•å­—å…¸ä¿¡æ¯dictDetailId_enriched",
                     "address": [
                         {
                             "dictDetailId": "410102"
@@ -38,7 +39,7 @@
                     ]
                 }
 
-        2.2¡¢ÎÄµµ²é¿´£º ×¢Òâ±£´æµ½Ë÷ÒıÖĞµÄÎÄµµÔö¼ÓÁËÁ½¸öÊôĞÔ£¬Ò»¸öÊÇ dictDetailId À©Õ¹³öÀ´µÄ dictDetailId_enriched£¬  ÁíÒ»¸öÊÇ address.dictDetailId À©Õ¹³öÀ´µÄ address._dictDetailIdObj
+        2.2ã€æ–‡æ¡£æŸ¥çœ‹ï¼š æ³¨æ„ä¿å­˜åˆ°ç´¢å¼•ä¸­çš„æ–‡æ¡£å¢åŠ äº†ä¸¤ä¸ªå±æ€§ï¼Œä¸€ä¸ªæ˜¯ dictDetailId æ‰©å±•å‡ºæ¥çš„ dictDetailId_enrichedï¼Œ  å¦ä¸€ä¸ªæ˜¯ address.dictDetailId æ‰©å±•å‡ºæ¥çš„ address._dictDetailIdObj
 
             GET http://localhost:9200/test-dict-detail/_doc/1
                 
@@ -55,9 +56,9 @@
                             {
                                 "_dictDetailIdObj": {
                                     "dictDetailId": "410102",
-                                    "dictName": "Ö£ÖİÊĞ",
+                                    "dictName": "éƒ‘å·å¸‚",
                                     "dictId": "410100",
-                                    "dictDetailName": "ÖĞÔ­Çø",
+                                    "dictDetailName": "ä¸­åŸåŒº",
                                     "dictCode": "410100",
                                     "dictDetailCode": "410102"
                                 },
@@ -66,9 +67,9 @@
                             {
                                 "_dictDetailIdObj": {
                                     "dictDetailId": "410103",
-                                    "dictName": "Ö£ÖİÊĞ",
+                                    "dictName": "éƒ‘å·å¸‚",
                                     "dictId": "410100",
-                                    "dictDetailName": "¶şÆßÇø",
+                                    "dictDetailName": "äºŒä¸ƒåŒº",
                                     "dictCode": "410100",
                                     "dictDetailCode": "410103"
                                 },
@@ -76,12 +77,12 @@
                             }
                         ],
                         "dictDetailId": "410102",
-                        "comment": "Ï£Íû´´½¨Ö®ºóÄÜ¹»³öÏÖdictDetailId¶ÔÓ¦µÄÀ©Õ¹×ÖµäĞÅÏ¢dictDetailId_enriched",
+                        "comment": "å¸Œæœ›åˆ›å»ºä¹‹åèƒ½å¤Ÿå‡ºç°dictDetailIdå¯¹åº”çš„æ‰©å±•å­—å…¸ä¿¡æ¯dictDetailId_enriched",
                         "dictDetailId_enriched": {
                             "dictDetailId": "410102",
-                            "dictName": "Ö£ÖİÊĞ",
+                            "dictName": "éƒ‘å·å¸‚",
                             "dictId": "410100",
-                            "dictDetailName": "ÖĞÔ­Çø",
+                            "dictDetailName": "ä¸­åŸåŒº",
                             "dictCode": "410100",
                             "dictDetailCode": "410102"
                         }
@@ -89,15 +90,15 @@
                 }
 
 
-    3¡¢ÊµÏÖ·½·¨£º
-        Õë¶Ô enrich processor µÄ¸ÅÄî£¬ºÜ¶àÎÄµµ¶¼½øĞĞÁËÃèÊö£¬±¾ÎÄ½áºÏ´úÂë½øĞĞÏêÏ¸ËµÃ÷£º
+    3ã€å®ç°æ–¹æ³•ï¼š
+        é’ˆå¯¹ enrich processor çš„æ¦‚å¿µï¼Œå¾ˆå¤šæ–‡æ¡£éƒ½è¿›è¡Œäº†æè¿°ï¼Œæœ¬æ–‡ç»“åˆä»£ç è¿›è¡Œè¯¦ç»†è¯´æ˜ï¼š
         
-        3.1¡¢´´½¨²ßÂÔ£¬¸Ã²ßÂÔ¶¨ÒåÎÒÃÇ½«Ê¹ÓÃÄÄ¸ö×Ö¶Î½«Ö÷Êı¾İÓëÊäÈëÊı¾İÁ÷ÖĞµÄÎÄµµ½øĞĞÆ¥Åä¡£
+        3.1ã€åˆ›å»ºç­–ç•¥ï¼Œè¯¥ç­–ç•¥å®šä¹‰æˆ‘ä»¬å°†ä½¿ç”¨å“ªä¸ªå­—æ®µå°†ä¸»æ•°æ®ä¸è¾“å…¥æ•°æ®æµä¸­çš„æ–‡æ¡£è¿›è¡ŒåŒ¹é…ã€‚
 
-            match £º policy ÀàĞÍ£¬³ıÁË´«Í³µÄmatchÀàĞÍ£¬»¹ÓĞÓ¦ÓÃÓÚµØÀíÎ»ÖÃ³¡¾°µÄ£ºgeo_match¡£
-            indices : Ò»¸ö»ò¶à¸öÔ´Ë÷ÒıµÄÁĞ±í£¬´æ´¢µÄÊÇ´ı enrich À©Õ¹µÄÊı¾İ¡£
-            match_field £º Ô´Ë÷ÒıÖĞÓÃÓÚÆ¥Åä´«ÈëÎÄµµµÄÆ¥Åä×Ö¶Î¡£
-            enrich_field £º Ô´Ë÷ÒıÖĞµÄ×Ö¶ÎÁĞ±í£¬ÓÃÓÚÌí¼Óµ½ĞÂ´«ÈëµÄÎÄµµÖĞ¡£
+            match ï¼š policy ç±»å‹ï¼Œé™¤äº†ä¼ ç»Ÿçš„matchç±»å‹ï¼Œè¿˜æœ‰åº”ç”¨äºåœ°ç†ä½ç½®åœºæ™¯çš„ï¼šgeo_matchã€‚
+            indices : ä¸€ä¸ªæˆ–å¤šä¸ªæºç´¢å¼•çš„åˆ—è¡¨ï¼Œå­˜å‚¨çš„æ˜¯å¾… enrich æ‰©å±•çš„æ•°æ®ã€‚
+            match_field ï¼š æºç´¢å¼•ä¸­ç”¨äºåŒ¹é…ä¼ å…¥æ–‡æ¡£çš„åŒ¹é…å­—æ®µã€‚
+            enrich_field ï¼š æºç´¢å¼•ä¸­çš„å­—æ®µåˆ—è¡¨ï¼Œç”¨äºæ·»åŠ åˆ°æ–°ä¼ å…¥çš„æ–‡æ¡£ä¸­ã€‚
 
             PUT http://localhost:9200/_enrich/policy/enrich-dict-detail-id-policy
                 {
@@ -114,19 +115,19 @@
                     }
                 }
         
-        3.2¡¢ÔËĞĞ²ßÂÔ
+        3.2ã€è¿è¡Œç­–ç•¥
             PUT http://localhost:9200/_enrich/policy/enrich-dict-detail-id-policy/_execute
 
-        3.3¡¢´´½¨Ò»¸ö pipeline
-            ×¢ÒâÕâÀïÕë¶ÔÆÕÍ¨fieldÊôĞÔºÍNested-ObjectÊôĞÔ¶¼½øĞĞÁËÃèÊö¡£
+        3.3ã€åˆ›å»ºä¸€ä¸ª pipeline
+            æ³¨æ„è¿™é‡Œé’ˆå¯¹æ™®é€šfieldå±æ€§å’ŒNested-Objectå±æ€§éƒ½è¿›è¡Œäº†æè¿°ã€‚
             
-            3.3.1¡¢processors ÖĞµÄµÚÒ»¸ö enrich ¾ÍÊÇÕë¶Ô ÆÕÍ¨fieldÊôĞÔ£¬Ö»ÒªÆ¥Åäµ½ dictDetailId ÊôĞÔ£¬¾Í¶ÔÆäÀ©³äÉú³É dictDetailId_enriched£¬ Ïê¼ûÈçÉÏ 2.2 ²¿·ÖµÄ½á¹û£»
-            3.3.2¡¢processors ÖĞµÄÊ£ÓàµÄ²Ù×÷£¬ÊÇÕë¶Ô Nested-Object½øĞĞµÄ²Ù×÷£¬Ö»ÒªÆ¥Åäµ½ address.dictDetailId£¬¾Í¶ÔÆäÀ©³äÉú³É address._dictDetailIdObj£¬Ïê¼ûÈçÉÏ 2.2 ²¿·ÖµÄ½á¹û£»
-                3.3.2.1¡¢Ê×ÏÈÊ¹ÓÃ foreach ±éÀú address ÊôĞÔ£¬È¡³öÀ´ÆäÖĞµÄ dictDetailIdÊôĞÔ£¬Éú³É addressDictDetailIds Êı×é£»
-                3.3.2.2¡¢Ê¹ÓÃµÚÒ»²½Éú³ÉµÄ addressDictDetailIds Êı×é£¬½øĞĞÀ©³äÉú³É addressDictDetailIds_enriched Êı×é¶ÔÏó£¬ÕâÀïµÄÊı×é¶ÔÏó¾ÍÊÇÒÑ¾­½øĞĞÊôĞÔÀ©³äµÄ¶ÔÏó£»
-                3.3.2.3¡¢É¾³ı addressDictDetailIds Êı×é£»
-                3.3.2.4¡¢½« addressDictDetailIds_enriched Êı×é¶ÔÏó Óë Ô­Ê¼µÄ address Êı×é¶ÔÏó½øĞĞºÏ²¢£¬ÔÚ address Êı×é¶ÔÏóÖĞÔö¼Ó _dictDetailIdObj ÊôĞÔ£»
-                3.3.2.5¡¢É¾³ı addressDictDetailIds_enriched Êı×é¶ÔÏó£»
+            3.3.1ã€processors ä¸­çš„ç¬¬ä¸€ä¸ª enrich å°±æ˜¯é’ˆå¯¹ æ™®é€šfieldå±æ€§ï¼Œåªè¦åŒ¹é…åˆ° dictDetailId å±æ€§ï¼Œå°±å¯¹å…¶æ‰©å……ç”Ÿæˆ dictDetailId_enrichedï¼Œ è¯¦è§å¦‚ä¸Š 2.2 éƒ¨åˆ†çš„ç»“æœï¼›
+            3.3.2ã€processors ä¸­çš„å‰©ä½™çš„æ“ä½œï¼Œæ˜¯é’ˆå¯¹ Nested-Objectè¿›è¡Œçš„æ“ä½œï¼Œåªè¦åŒ¹é…åˆ° address.dictDetailIdï¼Œå°±å¯¹å…¶æ‰©å……ç”Ÿæˆ address._dictDetailIdObjï¼Œè¯¦è§å¦‚ä¸Š 2.2 éƒ¨åˆ†çš„ç»“æœï¼›
+                3.3.2.1ã€é¦–å…ˆä½¿ç”¨ foreach éå† address å±æ€§ï¼Œå–å‡ºæ¥å…¶ä¸­çš„ dictDetailIdå±æ€§ï¼Œç”Ÿæˆ addressDictDetailIds æ•°ç»„ï¼›
+                3.3.2.2ã€ä½¿ç”¨ç¬¬ä¸€æ­¥ç”Ÿæˆçš„ addressDictDetailIds æ•°ç»„ï¼Œè¿›è¡Œæ‰©å……ç”Ÿæˆ addressDictDetailIds_enriched æ•°ç»„å¯¹è±¡ï¼Œè¿™é‡Œçš„æ•°ç»„å¯¹è±¡å°±æ˜¯å·²ç»è¿›è¡Œå±æ€§æ‰©å……çš„å¯¹è±¡ï¼›
+                3.3.2.3ã€åˆ é™¤ addressDictDetailIds æ•°ç»„ï¼›
+                3.3.2.4ã€å°† addressDictDetailIds_enriched æ•°ç»„å¯¹è±¡ ä¸ åŸå§‹çš„ address æ•°ç»„å¯¹è±¡è¿›è¡Œåˆå¹¶ï¼Œåœ¨ address æ•°ç»„å¯¹è±¡ä¸­å¢åŠ  _dictDetailIdObj å±æ€§ï¼›
+                3.3.2.5ã€åˆ é™¤ addressDictDetailIds_enriched æ•°ç»„å¯¹è±¡ï¼›
 
             PUT http://localhost:9200/_ingest/pipeline/enrich-dict-detail-id-policy-pipeline
 
@@ -135,7 +136,7 @@
                 "processors": [
                     {
                         "enrich": {
-                            "description": "µ¥¶À¶ÔÏó£ºÕë¶Ô field ÊôĞÔ½øĞĞÀ©³ä,Éú³É target_field ¶ÔÏó",
+                            "description": "å•ç‹¬å¯¹è±¡ï¼šé’ˆå¯¹ field å±æ€§è¿›è¡Œæ‰©å……,ç”Ÿæˆ target_field å¯¹è±¡",
                             "policy_name": "enrich-dict-detail-id-policy",
                             "field": "dictDetailId",
                             "target_field": "dictDetailId_enriched",
@@ -147,7 +148,7 @@
                         "foreach": {
                             "field": "address",
                             "ignore_failure": true,
-                            "description": "Nested-Object-Enrich:1¡¢±éÀú field ¶ÔÏó, Éú³É field Êı×é",
+                            "description": "Nested-Object-Enrich:1ã€éå† field å¯¹è±¡, ç”Ÿæˆ field æ•°ç»„",
                             "processor": {
                                 "append": {
                                     "field": "addressDictDetailIds",
@@ -160,7 +161,7 @@
                     },
                     {
                         "enrich": {
-                            "description": "Nested-Object-Enrich:2¡¢Õë¶ÔµÚÒ»²½Éú³ÉµÄÊı×é£¬½øĞĞÀ©³äÉú³É target_field Êı×é¶ÔÏó",
+                            "description": "Nested-Object-Enrich:2ã€é’ˆå¯¹ç¬¬ä¸€æ­¥ç”Ÿæˆçš„æ•°ç»„ï¼Œè¿›è¡Œæ‰©å……ç”Ÿæˆ target_field æ•°ç»„å¯¹è±¡",
                             "policy_name": "enrich-dict-detail-id-policy",
                             "field": "addressDictDetailIds",
                             "target_field": "addressDictDetailIds_enriched",
@@ -170,7 +171,7 @@
                     },
                     {
                         "remove": {
-                            "description": "Nested-Object-Enrich:3¡¢Õë¶ÔµÚÒ»²½Éú³ÉµÄÊı×é£¬ÒÑ¾­¾­¹ıÁËµÚ¶ş²½µÄ´¦Àí£¬¹ÊÉ¾³ıµÚÒ»²½ÁÙÊ±Éú³ÉµÄÊı×é¶ÔÏó",
+                            "description": "Nested-Object-Enrich:3ã€é’ˆå¯¹ç¬¬ä¸€æ­¥ç”Ÿæˆçš„æ•°ç»„ï¼Œå·²ç»ç»è¿‡äº†ç¬¬äºŒæ­¥çš„å¤„ç†ï¼Œæ•…åˆ é™¤ç¬¬ä¸€æ­¥ä¸´æ—¶ç”Ÿæˆçš„æ•°ç»„å¯¹è±¡",
                             "ignore_failure": true,
                             "field": [
                                 "addressDictDetailIds"
@@ -179,7 +180,7 @@
                     },
                     {
                         "script": {
-                            "description": "Nested-Object-Enrich:4¡¢½«Ô­Ê¼¶ÔÏóºÍµÚ3²½Éú³ÉµÄÊı×é¶ÔÏó½øĞĞºÏ²¢",
+                            "description": "Nested-Object-Enrich:4ã€å°†åŸå§‹å¯¹è±¡å’Œç¬¬3æ­¥ç”Ÿæˆçš„æ•°ç»„å¯¹è±¡è¿›è¡Œåˆå¹¶",
                             "lang": "painless",
                             "ignore_failure": true,
                             "source": "for (int i = 0; i < ctx.address.length; i++) { ctx.address[i]._dictDetailIdObj = ctx.addressDictDetailIds_enriched[i] }"
@@ -187,7 +188,7 @@
                     },
                     {
                         "remove": {
-                            "description": "Nested-Object-Enrich:5¡¢É¾³ıµÚ¶ş²½À©³äÉú³ÉµÄ¶ÔÏó",
+                            "description": "Nested-Object-Enrich:5ã€åˆ é™¤ç¬¬äºŒæ­¥æ‰©å……ç”Ÿæˆçš„å¯¹è±¡",
                             "field": [
                                 "addressDictDetailIds_enriched"
                             ],
@@ -197,10 +198,10 @@
                 ]
             }
     
-        3.4¡¢¾Í¿ÉÒÔÊ¹ÓÃ 2.1 ºÍ 2.2 Á½¸ö²¿·ÖµÄÃüÁî£¬´´½¨ÎÄµµºÍ²é¿´ÎÄµµ£¬ÖÁ´ËÀàËÆ Mysql µÄ join ²Ù×÷¾ÍÒÑ¾­ÊµÏÖ£»
+        3.4ã€å°±å¯ä»¥ä½¿ç”¨ 2.1 å’Œ 2.2 ä¸¤ä¸ªéƒ¨åˆ†çš„å‘½ä»¤ï¼Œåˆ›å»ºæ–‡æ¡£å’ŒæŸ¥çœ‹æ–‡æ¡£ï¼Œè‡³æ­¤ç±»ä¼¼ Mysql çš„ join æ“ä½œå°±å·²ç»å®ç°ï¼›
 
-    4¡¢ÆäËûÃüÁî£º
-        É¾³ı pipeline
+    4ã€å…¶ä»–å‘½ä»¤ï¼š
+        åˆ é™¤ pipeline
             DELETE http://localhost:9200/_ingest/pipeline/enrich-dict-detail-id-policy-pipeline
-        É¾³ı enrich
+        åˆ é™¤ enrich
             DELETE http://localhost:9200/_enrich/policy/enrich-dict-detail-id-policy
