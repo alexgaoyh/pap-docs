@@ -40,7 +40,7 @@
     studentRepository.save(student33);
 ```
 
-## A与B
+## 条件：A与B
 &ensp;&ensp;理解为将满足条件 A 的结果与满足条件 B 的结果求交集。
 
 &ensp;&ensp;举一个实际的场景，假设条件为： (studentName = 酒精) 与 (studentName = 白酒) ，那么将没有任何数据进行返回。
@@ -50,7 +50,7 @@
 {"size":0,"query":{"bool":{"must":[{"bool":{"must":[{"match":{"studentName":{"query":"酒精"}}},{"match":{"studentName":{"query":"白酒"}}}]}}]}}}
 ```
 
-## A或B
+## 条件：A或B
 &ensp;&ensp;理解为将满足条件 A 的结果和满足条件 B 的结果求并集。
 
 &ensp;&ensp;举一个实际的场景，假设条件为： (studentName = 酒精) 或 (studentName = 白酒) ，那么将返回如上6条数据。
@@ -60,7 +60,7 @@
 {"size":0,"query":{"bool":{"must":[{"bool":{"should":[{"match":{"studentName":{"query":"酒精"}}},{"match":{"studentName":{"query":"白酒"}}}]}}]}}}
 ```
 
-## (A与B)或C
+## 条件：(A与B)或C
 &ensp;&ensp;理解为将满足条件 A 的结果和满足条件 B 的结果求交集，之后再与条件 C 求并集。
 
 &ensp;&ensp;举一个实际的场景，假设条件为： ((studentName = 酒精) 与 (studentName = 白酒)) 或 (studentAge in [ 80, 90 ]) ，那么将返回如上4条数据。
@@ -70,7 +70,7 @@
 {"size":0,"query":{"bool":{"should":[{"bool":{"must":[{"bool":{"must":[{"match":{"studentName":{"query":"酒精"}}},{"match":{"studentName":{"query":"白酒"}}}]}}]}},{"range":{"studentAge":{"gte":80,"lte":90}}}]}}}
 ```
 
-## (A与B)与C
+## 条件：(A与B)与C
 &ensp;&ensp;理解为将满足条件 A 的结果和满足条件 B 的结果求交集，之后再与条件 C 求交集。
 
 &ensp;&ensp;举一个实际的场景，假设条件为： ((studentName = 酒精) 与 (studentName = 白酒)) 与 (studentAge in [ 80, 90 ]) ，那么将返回如上0条数据。
@@ -80,7 +80,7 @@
 {"size":0,"query":{"bool":{"must":[{"bool":{"must":[{"bool":{"must":[{"match":{"studentName":{"query":"酒精"}}},{"match":{"studentName":{"query":"白酒"}}}]}}]}},{"range":{"studentAge":{"gte":80,"lte":90}}}]}}}
 ```
 
-## (A或B)或C
+## 条件：(A或B)或C
 &ensp;&ensp;理解为将满足条件 A 的结果和满足条件 B 的结果求并集，之后再与条件 C 求并集。
 
 &ensp;&ensp;举一个实际的场景，假设条件为： ((studentName = 酒精) 并 (studentName = 白酒)) 并 (studentAge in [ 80, 90 ]) ，那么将返回如上6条数据。
@@ -90,7 +90,7 @@
 {"size":0,"query":{"bool":{"should":[{"bool":{"must":[{"bool":{"should":[{"match":{"studentName":{"query":"酒精"}}},{"match":{"studentName":{"query":"白酒"}}}]}}]}},{"range":{"studentAge":{"gte":80,"lte":90}}}]}}}
 ```
 
-## (A或B)与C
+## 条件：(A或B)与C
 &ensp;&ensp;理解为将满足条件 A 的结果和满足条件 B 的结果求并集，之后再与条件 C 求交集。
 
 &ensp;&ensp;举一个实际的场景，假设条件为： ((studentName = 酒精) 并 (studentName = 白酒)) 与 (studentAge in [ 80, 90 ]) ，那么将返回如上4条数据。
@@ -100,7 +100,7 @@
 {"size":0,"query":{"bool":{"must":[{"bool":{"must":[{"bool":{"should":[{"match":{"studentName":{"query":"酒精"}}},{"match":{"studentName":{"query":"白酒"}}}]}}]}},{"range":{"studentAge":{"gte":80,"lte":90}}}]}}}
 ```
 
-## ((A与B)或C)与D
+## 条件：((A与B)或C)与D
 &ensp;&ensp;理解为将满足条件 A 的结果和满足条件 B 的结果求交集，之后再与条件 C 求并集，最后再与条件 D 求交集。
 
 &ensp;&ensp;举一个实际的场景，假设条件为： (((studentName = 酒精) 与 (studentName = 白酒)) 并 (studentAge in [ 80, 90 ])) 与 (studentTags = 饮用、聚餐) ，那么将返回如上1条数据。
@@ -110,7 +110,7 @@
 {"size":0,"query":{"bool":{"must":[{"bool":{"should":[{"bool":{"must":[{"bool":{"must":[{"match":{"studentName":{"query":"酒精"}}},{"match":{"studentName":{"query":"白酒"}}}]}}]}},{"range":{"studentAge":{"gte":80,"lte":90}}}]}},{"match":{"studentTags":{"query":"饮用、聚餐"}}}]}}}
 ```
 
-## ((A与B)或C)或D
+## 条件：((A与B)或C)或D
 &ensp;&ensp;理解为将满足条件 A 的结果和满足条件 B 的结果求交集，之后再与条件 C 求并集，最后再与条件 D 求并集。
 
 &ensp;&ensp;举一个实际的场景，假设条件为： (((studentName = 酒精) 与 (studentName = 白酒)) 并 (studentAge in [ 80, 90 ])) 并 (studentTags = 饮用、聚餐) ，那么将返回如上6条数据。
@@ -120,7 +120,7 @@
 {"size":0,"query":{"bool":{"should":[{"bool":{"should":[{"bool":{"must":[{"bool":{"must":[{"match":{"studentName":{"query":"酒精"}}},{"match":{"studentName":{"query":"白酒"}}}]}}]}},{"range":{"studentAge":{"gte":80,"lte":90}}}]}},{"match":{"studentTags":{"query":"饮用、聚餐"}}}]}}}
 ```
 
-## (((A与B)或C)与D)与E
+## 条件：(((A与B)或C)与D)与E
 &ensp;&ensp;理解为将满足条件 A 的结果和满足条件 B 的结果求交集，之后再与条件 C 求并集，接下来再与条件 D 求交集，最后再与条件 E 求交集。
 
 &ensp;&ensp;举一个实际的场景，假设条件为： ((((studentName = 酒精) 与 (studentName = 白酒)) 并 (studentAge in [ 80, 90 ])) 与 (studentTags = 饮用、聚餐) ) 与 (gradePoint = 10)，那么将返回如上1条数据。
