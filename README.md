@@ -30,7 +30,8 @@
     - [Enrich-Processor(Mysql.Join)](md/elasticsearch/Enrich-Processor.md)
     - [长拼音序列切分搜索自定义分词插件](md/elasticsearch/pinyin-cutting.md)
     - [根据词频排序的自定义相似度插件](md/elasticsearch/similarity-tf.md)
-    - [逗号分割/集合对象的分组聚合](md/elasticsearch/group-comma-nested.md) 
+    - [逗号分割/集合对象的分组聚合](md/elasticsearch/group-comma-nested.md)
+    - [高级检索-按照搜索条件顺序执行](md/elasticsearch/high-query-by-condition-order.md)
 - 算法
   - [分类 - 朴素贝叶斯](md/algorithm/algorithm-naivebayes.md)
   - [分类 - KNN](md/algorithm/algorithm-knn.md)

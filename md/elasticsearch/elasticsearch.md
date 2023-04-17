@@ -22,3 +22,4 @@ Spring Boot 自定义 Starter 组件 [pap-es-spring-boot-starter](https://gitee.
 - 长拼音序列切分搜索自定义分词插件 
 - 根据词频排序的自定义相似度插件
 - 逗号分割/集合对象的分组聚合
+- 高级检索-按照搜索条件顺序执行
