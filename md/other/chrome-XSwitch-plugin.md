@@ -31,11 +31,11 @@
 ## 截图示例 
 
 1. 未开启 XSwitch，这个时候可以发现浏览器在访问 192.168.0.26 下的请求过程中，并不能正常获取静态资源。
-2. 图片无法正常查看的话， [访问](https://gitee.com/alexgaoyh/pap-docs/md/other/img/un-open-XSwitch.png)
+2. 图片无法正常查看的话， [访问](https://gitee.com/alexgaoyh/pap-docs/blob/master/md/other/img/un-open-XSwitch.png)
    ![未开启 XSwitch](https://s2.loli.net/2023/04/20/76yPSDzmxqCnLQB.png)
 
 2. 开启 XSwitch， 这个时候发现浏览器在访问 192.168.0.26 下的请求过程中，会根据配置，自动将请求转发到 127.0.0.1 下，从浏览器的地址栏也看到请求地址发生了变化。
-2. 图片无法正常查看的话， [访问](https://gitee.com/alexgaoyh/pap-docs/md/other/img/open-XSwitch.png)
+2. 图片无法正常查看的话， [访问](https://gitee.com/alexgaoyh/pap-docs/blob/master/md/other/img/open-XSwitch.png)
    ![开启 XSwitch](https://s2.loli.net/2023/04/20/o36TW1fhdkRcFvi.png)
 
 ## 总结
