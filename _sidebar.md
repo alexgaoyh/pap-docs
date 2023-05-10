@@ -39,3 +39,4 @@
 * 杂谈
     * 插件
       * [Chrome XSwitch](md/other/chrome-XSwitch-plugin.md)
+      * [大型JSON数据切分(Java Jackson)](md/other/big-json-split-in-limited-memory.md)

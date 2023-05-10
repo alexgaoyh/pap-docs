@@ -80,3 +80,4 @@
   - [图数据结构 - 路径查找](md/algorithm/algorithm-graph-path-search.md)
 - 杂谈
   - [Chrome XSwitch 浏览器请求转发](md/other/chrome-XSwitch-plugin.md)
+  - [大型JSON数据切分(Java Jackson)](md/other/big-json-split-in-limited-memory.md)
