@@ -81,3 +81,4 @@
 - 杂谈
   - [Chrome XSwitch 浏览器请求转发](md/other/chrome-XSwitch-plugin.md)
   - [大型JSON数据切分(Java Jackson)](md/other/big-json-split-in-limited-memory.md)
+  - [飞浆paddle环境安装](md/other/paddle-install.md)
