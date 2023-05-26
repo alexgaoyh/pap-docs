@@ -48,3 +48,32 @@
     2. cuda_11.6.0_510.39.01_linux.run
     3. cudnn-linux-x86_64-8.4.0.27_cuda11.6-archive.tar.xz
     4. NVIDIA-Linux-x86_64-525.116.04.run
+
+6. paddleocr
+   1. 在实际使用过程中，会发现 python==3.10 版本些许高，所以重新安装了基于 python==3.8 的 paddlepaddle
+   2. pip install paddleocr=2.2  这里安装了2.2版本
+   3. pip install opencv-python==4.1.2.30 重新更改 opencv-python 的版本，解决 module cv2 has no attribute gapi_wip_gst_gstreamerpipeline
+   4. pip install numpy=1.23.1 重新更改 numpy 的版本，解决 module numpy has no attribute bool 
+   5. 执行 paddleocr --image_dir 11.jpg --use_angle_cls true 命令的时候，会遇到GPU环境下的乱码， 可以在最后部分增加  --use_gpu false
+   6. 如下是具体的执行命令，相比于官方的命令，移除了 result = result[0]的部分，并且修改了 font_path 的字体路径，至此官方示例已完成。
+```shell
+   from paddleocr import PaddleOCR,draw_ocr
+   ocr = PaddleOCR(use_angle_cls=True, lang='ch', use_gpu=False)
+   img_path = '/home/alex/paddleocr/11.jpg'
+   result = ocr.ocr(img_path, cls=True)
+   for idx in range(len(result)):
+   res = result[idx]
+   for line in res:
+   print(line)
+   
+   # draw result
+   from PIL import Image
+   # result = result[0]
+   image = Image.open(img_path).convert('RGB')
+   boxes = [line[0] for line in result]
+   txts = [line[1][0] for line in result]
+   scores = [line[1][1] for line in result]
+   im_show = draw_ocr(image, boxes, txts, scores, font_path='/usr/share/fonts/truetype/arphic/uming.ttc')
+   im_show = Image.fromarray(im_show)
+   im_show.save('/home/alex/result.jpg')
+```
