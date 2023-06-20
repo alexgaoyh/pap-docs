@@ -78,6 +78,8 @@
   - [字典数据结构 - Darts-Java-Pos](md/algorithm/algorithm-darts-java-pos.md)
   - [字典数据结构 - FST](md/algorithm/algorithm-fst.md)
   - [图数据结构 - 路径查找](md/algorithm/algorithm-graph-path-search.md)
+- JPA
+  - [动态模型](md/jpa/Hibernate-dynamic-model.md)
 - 杂谈
   - [Chrome XSwitch 浏览器请求转发](md/other/chrome-XSwitch-plugin.md)
   - [大型JSON数据切分(Java Jackson)](md/other/big-json-split-in-limited-memory.md)
