@@ -25,7 +25,7 @@
       6. 测试结果，图片无法正常查看的话， [访问](https://gitee.com/alexgaoyh/pap-docs/blob/master/md/other/img/ERNIE-Layout-customer-example-answer.png)![非官方测试图片结果](https://s2.loli.net/2023/06/26/Kqcm2Xg5okxQeEJ.png)
 2. 应用
    1. 可以外面包一层 django 框架进行服务化；
-   2. https://github.com/PaddlePaddle/FastDeploy 当前当前未看到关于 ERNIE-Layout 部分的介绍；
+   2. https://github.com/PaddlePaddle/FastDeploy 当前未看到关于 ERNIE-Layout 部分的介绍；
 
 ## 问题解决
 
