@@ -1,3 +1,15 @@
+* 机器学习/深度学习
+    * Paddle
+      * [飞浆paddle环境安装](md/other/paddle/paddle-install.md)
+      * [ERNIE-Layout 使用测试](md/other/paddle/paddle-ERNIE-Layout.md)
+* 算法
+    * [算法](md/algorithm/algorithm.md)
+        * [分类 - 朴素贝叶斯](md/algorithm/algorithm-naivebayes.md)
+        * [分类 - KNN](md/algorithm/algorithm-knn.md)
+        * [优化 - DE](md/algorithm/algorithm-de.md)
+        * [字典数据结构 - Darts-Java-Pos](md/algorithm/algorithm-darts-java-pos.md)
+        * [字典数据结构 - FST](md/algorithm/algorithm-fst.md)
+        * [图数据结构 - 路径查找](md/algorithm/algorithm-graph-path-search.md)
 * 中间件
     * [缓存](md/cache/cache.md)
       * [Redis](md/cache/cache-redis.md)
@@ -28,19 +40,9 @@
       * [根据词频排序的自定义相似度插件](md/elasticsearch/similarity-tf.md)
       * [逗号分割/集合对象的分组聚合](md/elasticsearch/group-comma-nested.md)
       * [高级检索-按照搜索条件顺序执行](md/elasticsearch/high-query-by-condition-order.md)
-* 算法
-    * [算法](md/algorithm/algorithm.md)
-        * [分类 - 朴素贝叶斯](md/algorithm/algorithm-naivebayes.md)
-        * [分类 - KNN](md/algorithm/algorithm-knn.md)
-        * [优化 - DE](md/algorithm/algorithm-de.md)
-        * [字典数据结构 - Darts-Java-Pos](md/algorithm/algorithm-darts-java-pos.md)
-        * [字典数据结构 - FST](md/algorithm/algorithm-fst.md)
-        * [图数据结构 - 路径查找](md/algorithm/algorithm-graph-path-search.md)
 * JPA
     * [动态模型](md/jpa/Hibernate-dynamic-model.md)
 * 杂谈
     * 插件
       * [Chrome XSwitch](md/other/chrome-XSwitch-plugin.md)
       * [大型JSON数据切分(Java Jackson)](md/other/big-json-split-in-limited-memory.md)
-    * 飞浆paddle
-      * [飞浆paddle环境安装](md/other/paddle-install.md)
