@@ -45,6 +45,7 @@
   - Paddle
     - [飞浆paddle环境安装](md/other/paddle/paddle-install.md)
     - [ERNIE-Layout 使用测试](md/other/paddle/paddle-ERNIE-Layout.md)
+    - [ERNIE-UIE](md/other/paddle/paddle-uie.md)
 - 算法
   - [分类 - 朴素贝叶斯](md/algorithm/algorithm-naivebayes.md)
   - [分类 - KNN](md/algorithm/algorithm-knn.md)
