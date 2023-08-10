@@ -50,6 +50,8 @@
     - [langchain-ChatGLM](md/other/nlp/langchain-ChatGLM.md)
   - HuggingFace
     - [系列文章(1)-认识Transformers](md/huggingface/install-check.md)
+- 国产化
+  - [银河麒麟v10桌面版FTP适配(FtpClient)](md/localization/kylin/kylin-ftp.md)
 - 算法
   - [分类 - 朴素贝叶斯](md/algorithm/algorithm-naivebayes.md)
   - [分类 - KNN](md/algorithm/algorithm-knn.md)
