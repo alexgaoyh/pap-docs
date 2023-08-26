@@ -63,6 +63,64 @@ public class StringAlignment {
         }
     }
 
+    /**
+     *  编辑距离 - 计算出两个字符串的变化过程，将 word1 转换为 word2 的时候，需要进行操作的步骤。
+     * @param word1 字符串1，假设输入： horse
+     * @param word2 字符串2，假设输入： ros
+     * @return 输出 word1 到 word2 的变换过程 ： [Replace 'h' with 'r', Copy 'o', Delete 'r', Copy 's', Delete 'e']
+     */
+    public static List<String> calEditDistanceWays(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+        List<String> operations = new ArrayList<>();
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));
+                }
+            }
+        }
+
+        int i = m, j = n;
+        while (i > 0 && j > 0) {
+            if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                operations.add("Copy '" + word1.charAt(i - 1) + "'");
+                i--;
+                j--;
+            } else if (dp[i][j] == dp[i - 1][j - 1] + 1) {
+                operations.add("Replace '" + word1.charAt(i - 1) + "' with '" + word2.charAt(j - 1) + "'");
+                i--;
+                j--;
+            } else if (dp[i][j] == dp[i - 1][j] + 1) {
+                operations.add("Delete '" + word1.charAt(i - 1) + "'");
+                i--;
+            } else if (dp[i][j] == dp[i][j - 1] + 1) {
+                operations.add("Insert '" + word2.charAt(j - 1) + "'");
+                j--;
+            }
+        }
+
+        while (i > 0) {
+            operations.add("Delete '" + word1.charAt(i - 1) + "'");
+            i--;
+        }
+
+        while (j > 0) {
+            operations.add("Insert '" + word2.charAt(j - 1) + "'");
+            j--;
+        }
+
+        Collections.reverse(operations);
+        return operations;
+    }
 }
 ```
 
