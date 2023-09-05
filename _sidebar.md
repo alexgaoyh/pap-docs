@@ -3,6 +3,7 @@
       * [飞浆paddle环境安装](md/other/paddle/paddle-install.md)
       * [ERNIE-Layout 使用测试](md/other/paddle/paddle-ERNIE-Layout.md)
       * [ERNIE-UIE](md/other/paddle/paddle-uie.md)
+      * [PaddleGAN-人脸表情迁移](md/other/paddle/PaddleGAN-motion_driving.md)
     * LLM
       * [langchain-ChatGLM](md/other/nlp/langchain-ChatGLM.md)
     * HuggingFace
