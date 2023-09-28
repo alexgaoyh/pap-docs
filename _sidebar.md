@@ -53,6 +53,7 @@
       * [高级检索-按照搜索条件顺序执行](md/elasticsearch/high-query-by-condition-order.md)
 * Lucene
     * [自定义分词器](md/lucene/combined-analyzer.md)
+    * [基于Lucene8进行多值字段分组聚合(多属性字段)](md/lucene/multi-value-field-group-aggregation.md)
 * JPA
     * [动态模型](md/jpa/Hibernate-dynamic-model.md)
 * 杂谈
