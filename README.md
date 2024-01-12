@@ -63,6 +63,8 @@
   - [字典数据结构 - FST](md/algorithm/algorithm-fst.md)
   - [图数据结构 - 路径查找](md/algorithm/algorithm-graph-path-search.md)
   - [动态规划-编辑距离-两字符串集合重排序](md/algorithm/algorithm-two-str-list-reorder.md)
+  - [图像边缘检测-去黑边](md/algorithm/image/remove-black-border.md)
+  - [图像边缘检测-自动纠偏](md/algorithm/image/auto-correction.md)
 - 中间件
   - 缓存
     - [Redis](md/cache/cache-redis.md)
