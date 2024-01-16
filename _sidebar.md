@@ -23,6 +23,7 @@
         * [编辑距离-两字符串集合重排序](md/algorithm/algorithm-two-str-list-reorder.md)
         * [图像边缘检测-去黑边](md/algorithm/image/remove-black-border.md)
         * [图像边缘检测-自动纠偏](md/algorithm/image/auto-correction.md)
+        * [字符串操作-逗号分割字符串转树形结构](md/algorithm/algorithm-string-list-to-tree.md)
 * 中间件
     * [缓存](md/cache/cache.md)
       * [Redis](md/cache/cache-redis.md)
