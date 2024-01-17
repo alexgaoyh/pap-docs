@@ -110,3 +110,4 @@
   - [JavaFx项目至安装程序](md/other/sb-project-to-install-program.md)
   - [替代关系型数据库 MAX 聚合函数的思路](md/database/select-max-function-optimize.md)
   - [Excel数据转换为一对多的工具类](md/other/excel/extract-excel-to-multi-object.md)
+  - [优化-Spring Boot项目服务端接口超时设置](md/other/sb-api-timeout-setting.md)
