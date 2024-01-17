@@ -26,6 +26,13 @@ public Callable<String> test() throws InterruptedException {
 &ensp;&ensp;实现逻辑如下所示，在 Service 实现类中，增加事务注解，并且设置超时时间，这样如果业务代码执行时间过长，则直接回滚代码
 
 ```html
+
+@GetMapping("/special")
+public String special() {
+    orderService.insert(new Order());
+    return "success";
+}
+
 @Override
 @Transactional(timeout = 5)
 public Order insert(Order order)  {
