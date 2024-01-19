@@ -67,6 +67,7 @@
   - [图像边缘检测-自动纠偏](md/algorithm/image/auto-correction.md)
   - [图像处理-锐化](md/algorithm/image/sharpening-prewitt-overlay.md)
   - [图像处理-Java-去噪/高斯模糊/套红](md/algorithm/image/image-denoise-gaussianBlur-red.md)
+  - [图像处理-Java-背景色平滑/反色](md/algorithm/image/image-backgroundSmooth-invert.md)
   - [字符串操作-逗号分割字符串转树形结构](md/algorithm/algorithm-string-list-to-tree.md)
 - 中间件
   - 缓存
