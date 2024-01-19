@@ -69,6 +69,7 @@
   - [图像处理-Java-去噪/高斯模糊/套红](md/algorithm/image/image-denoise-gaussianBlur-red.md)
   - [图像处理-Java-背景色平滑/反色](md/algorithm/image/image-backgroundSmooth-invert.md)
   - [字符串操作-逗号分割字符串转树形结构](md/algorithm/algorithm-string-list-to-tree.md)
+  - [字符串操作-两个数组之间的重排序](md/algorithm/algorithm-array-resort-by-other.md)
 - 中间件
   - 缓存
     - [Redis](md/cache/cache-redis.md)
