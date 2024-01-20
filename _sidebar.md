@@ -28,6 +28,8 @@
         * [图像处理-Java-背景色平滑/反色](md/algorithm/image/image-backgroundSmooth-invert.md)
         * [字符串操作-逗号分割字符串转树形结构](md/algorithm/algorithm-string-list-to-tree.md)
         * [字符串操作-两个数组之间的重排序](md/algorithm/algorithm-array-resort-by-other.md)
+* 系统设计
+  * [思考-RBAC中对于权限编码部分的压缩处理](md/design/permission/rethink-rbac-permission-code.md)
 * 中间件
     * [缓存](md/cache/cache.md)
       * [Redis](md/cache/cache-redis.md)
