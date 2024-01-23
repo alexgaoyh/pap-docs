@@ -22,6 +22,7 @@
         * [图数据结构 - 路径查找](md/algorithm/algorithm-graph-path-search.md)
         * [编辑距离-两字符串集合重排序](md/algorithm/algorithm-two-str-list-reorder.md)
         * [序列比对-Smith-Waterman](md/algorithm/algorithm-Smith-Waterman.md)
+        * [动态规划-序列比对-最长公共子序列](md/algorithm/algorithm-LCS.md)
         * [图像边缘检测-去黑边](md/algorithm/image/remove-black-border.md)
         * [图像边缘检测-自动纠偏](md/algorithm/image/auto-correction.md)
         * [图像处理-锐化](md/algorithm/image/sharpening-prewitt-overlay.md)
