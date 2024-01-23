@@ -8,9 +8,11 @@
 
 &ensp;&ensp;输入两个字符串，在限制参数的情况下，输出三组相似的子串，其中-代表差异。
 
-1. **input.sequence1** : AACGTACTCAAGTCT
+1. **input.sequence1**: AACGTACTCAAGTCT
 2. **input.sequence2**: TCGTACTCTAACGAT
-3. **output.list**:  CGTACTCCAA->CGTACTC-AA、CGTACTCCAAAG->CGTACTC-AA-G、CGTACTCCAAAGGT->CGTACTC-AA-G-T
+3. **output.list[0]**:  CGTACTCCAA->CGTACTC-AA
+4. **output.list[1]**:  CGTACTCCAAAG->CGTACTC-AA-G
+5. **output.list[2]**:  CGTACTCCAAAGGT->CGTACTC-AA-G-T
 
 
 ## 算法
