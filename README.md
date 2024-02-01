@@ -77,6 +77,7 @@
   - [作业调度问题-遗传算法](md/algorithm/genetic-algorithm-job-scheduling.md)
 - 系统设计
   - [思考-RBAC中对于权限编码部分的压缩处理](md/design/permission/rethink-rbac-permission-code.md)
+  - [思考-RBAC中对于权限编码部分的压缩处理(RoaringBitmap)](md/design/permission/rethink-rbac-permission-code-RoaringBitmap.md)
 - 中间件
   - 缓存
     - [Redis](md/cache/cache-redis.md)
