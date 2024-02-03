@@ -128,3 +128,4 @@
   - [优化-Spring Boot项目服务端接口超时设置](md/other/sb-api-timeout-setting.md)
   - [集合-Java-笛卡尔积、平铺](md/collection/collection-descartes-flat.md)
   - [IDE-idea-可执行JAR项目创建](md/other/idea-exec-jar-no-maven.md)
+  - [一种Java语言下的简单重试实现](md/other/simple-retry-impl-in-java.md)
