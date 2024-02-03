@@ -60,17 +60,31 @@
     }
 
     // dependency org.apache.commons.commons-imaging.1.0-alpha3  handle LZW compress TIF file
-    public static void tiffToJpg2(String inputFilePath, String outputFilePath) throws IOException {
-        try {
-            File inputFile = new File(inputFilePath);
-            TiffImageParser parser = new TiffImageParser();
-            BufferedImage image = Imaging.getBufferedImage(new FileInputStream(inputFile), null);
-            
-            File outputFile = new File(outputFilePath);
-            ImageIO.write(image, "jpg", outputFile);
+    public static void tiffToJpg(String inputFilePath, String outputFilePath) {
+        File inputFile = new File(inputFilePath);
+        File outputFile = new File(outputFilePath);
         
-        } catch (ImageReadException | IOException e) {
-            e.printStackTrace();
+        try (FileInputStream inputStream = new FileInputStream(inputFile);
+            FileOutputStream outputStream = new FileOutputStream(outputFile);
+            ImageOutputStream imageOutputStream = ImageIO.createImageOutputStream(outputFile);
+            ImageInputStream imageInputStream = ImageIO.createImageInputStream(inputFile)) {
+        
+            TiffImageParser parser = new TiffImageParser();
+            BufferedImage image = Imaging.getBufferedImage(inputStream, null);
+            
+            ImageIO.write(image, "jpg", outputStream);
+            
+            ImageReader imageReader = ImageIO.getImageReaders(imageInputStream).next();
+            imageReader.setInput(imageInputStream);
+            IIOMetadata metadata = imageReader.getImageMetadata(0);
+            ImageWriter writer = ImageIO.getImageWritersByFormatName("JPEG").next();
+            writer.setOutput(imageOutputStream);
+            ImageWriteParam param = writer.getDefaultWriteParam();
+            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            param.setCompressionQuality(1f);
+            writer.write(metadata, new IIOImage(image, null, null), param);
+        
+        } catch (Exception e) {
         }
     }
 
