@@ -12,6 +12,8 @@
       * [基于Apache Tika的文本内容提取](md/tika/tika.md)
 * 国产化
   * [银河麒麟v10桌面版FTP适配(FtpClient)](md/localization/kylin/kylin-ftp.md)
+* Spring Boot脚手架
+  * [PAP4J-BOOT3](md/pap4j_boot3/introduce.md)
 * 算法
     * [算法](md/algorithm/algorithm.md)
         * [分类 - 朴素贝叶斯](md/algorithm/algorithm-naivebayes.md)
