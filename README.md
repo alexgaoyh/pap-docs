@@ -111,13 +111,13 @@
     - [根据词频排序的自定义相似度插件](md/elasticsearch/similarity-tf.md)
     - [逗号分割/集合对象的分组聚合](md/elasticsearch/group-comma-nested.md)
     - [高级检索-按照搜索条件顺序执行](md/elasticsearch/high-query-by-condition-order.md)
-- Lucene
-  - [自定义分词器](md/lucene/combined-analyzer.md)
-  - [基于Lucene8进行多值字段分组聚合(多属性字段)](md/lucene/multi-value-field-group-aggregation.md)
-  - [基于Lucene8版本的逆向最大匹配分词器(依赖本地词典)](md/lucene/backward-maximum-matching-analyzer.md)
-  - [自定义JSON属性值分词器](md/lucene/json-analyzer.md)
-- JPA
-  - [动态模型](md/jpa/Hibernate-dynamic-model.md)
+  - Lucene
+    - [自定义分词器](md/lucene/combined-analyzer.md)
+    - [基于Lucene8进行多值字段分组聚合(多属性字段)](md/lucene/multi-value-field-group-aggregation.md)
+    - [基于Lucene8版本的逆向最大匹配分词器(依赖本地词典)](md/lucene/backward-maximum-matching-analyzer.md)
+    - [自定义JSON属性值分词器](md/lucene/json-analyzer.md)
+  - JPA
+    - [动态模型](md/jpa/Hibernate-dynamic-model.md)
 - 杂谈
   - [Chrome XSwitch 浏览器请求转发](md/other/chrome-XSwitch-plugin.md)
   - [大型JSON数据切分(Java Jackson)](md/other/big-json-split-in-limited-memory.md)
