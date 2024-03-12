@@ -34,6 +34,7 @@
         * [图像处理-Java-TIFF转换JPG](md/algorithm/image/image-tif-convert-jpg.md)
         * [图像处理-Java-字深字浅](md/algorithm/image/image-fontweight-deep-shallow.md)
         * [图像处理-Java-以图搜图](md/algorithm/image/image-search-by-image.md)
+        * [图像处理-Java-OpenCV-水印编码/解码](md/algorithm/image/image-opencv-dct-watermark.md)
         * [字符串操作-逗号分割字符串转树形结构](md/algorithm/algorithm-string-list-to-tree.md)
         * [字符串操作-两个数组之间的重排序](md/algorithm/algorithm-array-resort-by-other.md)
         * [作业调度问题-遗传算法](md/algorithm/genetic-algorithm-job-scheduling.md)
