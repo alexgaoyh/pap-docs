@@ -51,6 +51,8 @@
     - [langchain-ChatGLM](md/other/nlp/langchain-ChatGLM.md)
   - HuggingFace
     - [系列文章(1)-认识Transformers](md/huggingface/install-check.md)
+  - 目标检测Yolo
+    - [基于YOLOV8的自定义数据集实现水印检测](md/yolo/yolov8-object-etection-customer-data.md)
   - 文本提取
     - [基于Apache Tika的文本内容提取](md/tika/tika.md)
 - 国产化
