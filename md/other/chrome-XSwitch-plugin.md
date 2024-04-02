@@ -41,3 +41,8 @@
 ## 总结
 
 &ensp;&ensp;作者近期由于 VPN 无法正常运行，在进行代码编写的过程中，发现部分网络请求无法正常访问，故此使用此插件将请求转发到本地进行代码编写与调试。
+
+## 参考
+
+1. http://pap-docs.pap.net.cn/
+2. https://gitee.com/alexgaoyh/

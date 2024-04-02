@@ -349,3 +349,8 @@ public class BayesClassifier<T, K> extends Classifier<T, K> {
 }
 
 ```
+
+## 参考
+
+1. http://pap-docs.pap.net.cn/
+2. https://gitee.com/alexgaoyh/

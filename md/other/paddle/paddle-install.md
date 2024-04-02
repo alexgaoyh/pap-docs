@@ -77,3 +77,8 @@
    im_show = Image.fromarray(im_show)
    im_show.save('/home/alex/result.jpg')
 ```
+
+## 参考
+
+1. http://pap-docs.pap.net.cn/
+2. https://gitee.com/alexgaoyh/

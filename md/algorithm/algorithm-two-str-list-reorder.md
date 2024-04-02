@@ -128,4 +128,3 @@ public class StringAlignment {
 
 1. https://blog.csdn.net/allway2/article/details/127889054
 2. https://gitee.com/alexgaoyh/pap-base/blob/v1/src/test/java/com/pap/base/util/dynamic/DistanceUtiil.java
-3. 

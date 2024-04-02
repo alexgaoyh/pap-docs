@@ -46,3 +46,9 @@
 ![加载知识库信息.png](https://s2.loli.net/2023/06/29/QOSiGKN256HwaC3.png)
 
 ![查询知识库信息.png](https://s2.loli.net/2023/06/29/YNgwqzUpj4P91Td.png)
+
+
+## 参考
+
+1. http://pap-docs.pap.net.cn/
+2. https://gitee.com/alexgaoyh/
