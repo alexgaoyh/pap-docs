@@ -88,6 +88,7 @@
 - 系统设计
   - [思考-RBAC中对于权限编码部分的压缩处理](md/design/permission/rethink-rbac-permission-code.md)
   - [思考-RBAC中对于权限编码部分的压缩处理(RoaringBitmap)](md/design/permission/rethink-rbac-permission-code-RoaringBitmap.md)
+  - [思考-使用JSON结构映射业务数据与数据库表结构](md/design/crud/rethink-crud-using-json.md)
 - 中间件
   - 缓存
     - [Redis](md/cache/cache-redis.md)
