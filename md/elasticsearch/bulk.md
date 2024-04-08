@@ -91,3 +91,9 @@ POST localhost:9200/_bulk
 { "script" : { "source": "ctx._source.counter += params.baseNum", "lang" : "painless", "params" : {"baseNum" : 1}}, "upsert" : {"counter" : 1}}
 
 ```
+
+
+## 参考
+
+1. http://pap-docs.pap.net.cn/
+2. https://gitee.com/alexgaoyh/

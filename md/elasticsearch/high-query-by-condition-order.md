@@ -129,3 +129,8 @@
 ```json
 {"size":0,"query":{"bool":{"must":[{"bool":{"must":[{"bool":{"should":[{"bool":{"must":[{"bool":{"must":[{"match":{"studentName":{"query":"酒精"}}},{"match":{"studentName":{"query":"白酒"}}}]}}]}},{"range":{"studentAge":{"gte":80,"lte":90}}}]}},{"match":{"studentTags":{"query":"杀毒、消菌"}}}]}},{"match":{"gradePoint":{"query":"10"}}}]}}}
 ```
+
+## 参考
+
+1. http://pap-docs.pap.net.cn/
+2. https://gitee.com/alexgaoyh/
