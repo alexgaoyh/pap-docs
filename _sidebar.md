@@ -97,6 +97,7 @@
     * [替代关系型数据库 MAX 聚合函数的思路](md/database/select-max-function-optimize.md)
     * [Excel数据转换为一对多的工具类](md/other/excel/extract-excel-to-multi-object.md)
     * [Excel复杂表头按组按行复制](md/other/excel/excel-copy-template-group.md)
+    * [EasyExcel导出-自适应图像尺寸](md/other/excel/excel-export-resize-image.md)
     * [优化-Spring Boot项目服务端接口超时设置](md/other/sb-api-timeout-setting.md)
     * [集合-Java-笛卡尔积、平铺](md/other/collection/collection-descartes-flat.md)
     * [IDE-idea-可执行JAR项目创建](md/other/idea-exec-jar-no-maven.md)
