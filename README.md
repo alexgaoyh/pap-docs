@@ -49,6 +49,7 @@
     - [PaddleGAN-人脸表情迁移](md/other/paddle/PaddleGAN-motion_driving.md)
   - LLM
     - [langchain-ChatGLM](md/other/nlp/langchain-ChatGLM.md)
+    - [LLM-结合三元组SPO和提示工程来试用Baichuan2-7B-Chat-4bits模型](md/llm/baichuan/Using-Baichuan2-7B-Chat-4bits.md)
   - HuggingFace
     - [系列文章(1)-认识Transformers](md/huggingface/install-check.md)
   - 目标检测Yolo
