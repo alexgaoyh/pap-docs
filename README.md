@@ -93,6 +93,7 @@
 - 中间件
   - 图数据库
     - [gStore1.2在Ubuntu和Java环境下的安装与试用](md/database/gStore/gStore-install-simple-using.md)
+    - [Neo4j中心性算法-以红楼梦为例](md/database/neo4j/neo4j-centrality-algorithms.md)
   - 缓存
     - [Redis](md/cache/cache-redis.md)
     - [Caffeine](md/cache/cache-caffeine.md)
