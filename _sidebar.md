@@ -107,3 +107,4 @@
     * [一种Java语言下的简单重试实现](md/other/simple-retry-impl-in-java.md)
     * [一种Java语言下生成竖版表格文档的方法](md/other/doc/gene-doc-in-direction-tableCell.md)
     * [转换Html(富文本编辑器)到docx的Java工具类](md/other/doc/convert-html2docx-using-poi.md)
+    * [针对PDF文档:印章、数字签名、编辑保护、PDF/A的Java工具类](md/other/pdfbox/stamp-sign-protect-pdfa-method.md)
