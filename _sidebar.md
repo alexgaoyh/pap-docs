@@ -48,6 +48,7 @@
   * [思考-RBAC中对于权限编码部分的压缩处理](md/design/permission/rethink-rbac-permission-code.md)
   * [思考-RBAC中对于权限编码部分的压缩处理(RoaringBitmap)](md/design/permission/rethink-rbac-permission-code-RoaringBitmap.md)
   * [思考-使用JSON结构映射业务数据与数据库表结构](md/design/crud/rethink-crud-using-json.md)
+  * [思考 Openresty 上传与进度](md/design/upload/upload-with-openresty.md)
 * 中间件
     * [图数据库](/md/database/database.md)
       * [gStore1.2在Ubuntu和Java环境下的安装与试用](md/database/gStore/gStore-install-simple-using.md)
