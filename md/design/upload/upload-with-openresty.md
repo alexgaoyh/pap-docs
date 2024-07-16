@@ -80,6 +80,12 @@ local function save_file(filepath, content)
     return true
 end
 
+local function to_hex(str)
+    return (str:gsub('.', function (c)
+        return string.format('%02x', string.byte(c))
+    end))
+end
+
 local function process_upload()
     local form, err = upload:new(chunk_size)
     if not form then
@@ -87,7 +93,7 @@ local function process_upload()
         return
     end
 
-    local file_content = ""
+    local file_content = {}
     local filename
     local extension
     local total_size = tonumber(ngx.var.http_content_length)
@@ -115,7 +121,7 @@ local function process_upload()
             end
 
         elseif typ == "body" then
-            file_content = file_content .. res
+            table.insert(file_content, res)
             uploaded_size = uploaded_size + #res
 
             if total_size > 0 then
@@ -134,13 +140,16 @@ local function process_upload()
                 filename = timestamp .. (extension or "")
                 os.execute("mkdir \"" .. upload_root_path .. "/" .. date_path .. "\"")
                 local filepath = upload_root_path .. "/" .. date_path .. "/" .. filename
-                local ok, err = save_file(filepath, file_content)
+                local full_content = table.concat(file_content)
+                local ok, err = save_file(filepath, full_content)
                 if not ok then
                     ngx.say(cjson.encode({ success = false, error = err }))
                     return
                 end
                 upload_progress:delete(upload_id)
-                ngx.say(cjson.encode({ success = true, upload_id = upload_id, filename = filename, path = date_path }))
+				
+                local md5_hash = to_hex(ngx.md5_bin(full_content))
+                ngx.say(cjson.encode({ success = true, upload_id = upload_id, filename = filename, path = date_path, md5 = md5_hash }))
                 return
             end
 
