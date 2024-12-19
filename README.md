@@ -18,7 +18,8 @@
 - 国产化
     | 详情 |  | 
     | --- | --- | 
-    | 操作系统 | [银河麒麟v10桌面版FTP适配(FtpClient)](md/localization/kylin/kylin-ftp.md) | 
+    | 操作系统 | [银河麒麟v10桌面版FTP适配(FtpClient)](md/localization/kylin/kylin-ftp.md) |
+    | 人大金仓 | [Mysql数据库迁移Kingbase数据库-自增序列](md/database/kingbase/mysql2kingbase.md) |
 - 算法
     | 详情 |  |  |  |  |
     | --- | --- | --- | --- | --- |

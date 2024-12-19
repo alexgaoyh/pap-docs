@@ -17,6 +17,8 @@
       * [基于Apache Tika的文本内容提取](md/tika/tika.md)
 * 国产化
   * [银河麒麟v10桌面版FTP适配(FtpClient)](md/localization/kylin/kylin-ftp.md)
+  * 人大金仓
+    * [Mysql数据库迁移Kingbase数据库-自增序列](md/database/kingbase/mysql2kingbase.md)
 * Spring Boot脚手架
   * [PAP4J-BOOT3](md/pap4j_boot3/introduce.md)
 * 算法
