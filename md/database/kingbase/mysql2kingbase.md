@@ -89,6 +89,31 @@
         WHERE TABLE_SCHEMA = 'alexgaoyh' AND EXTRA LIKE '%auto_increment%';
 ```
 
+## JSON 字段类型 - 数据类型映射配置
+
+&ensp;&ensp;~~KingbaseDTS 数据库迁移工具。数据类型映射配置的目标数据类型中，下拉框未看到 JSON 类型，故手动进行类型转换。~~
+
+&ensp;&ensp;~~Mysql数据库下执行脚本后在 Kingbase 中运行。~~
+
+&ensp;&ensp;后期通过查看 KDTS-WEB/conf/mapping_rule/data_type/mysql_to_kingbase_mysql.json 文件，发现默认是有 json 支持的，故尝试直接更改数据类型映射配置为json(即使下拉框中没有json)，经测试后通过。
+
+&ensp;&ensp;如下脚本仅做记录，可直接忽略。
+
+```sql
+    SELECT
+        CONCAT(
+            'ALTER TABLE ', TABLE_NAME,
+            ' ALTER COLUMN ', COLUMN_NAME,
+            ' SET DATA TYPE json USING ', COLUMN_NAME, '::json;'
+        ) AS kingbase_sql
+    FROM
+        INFORMATION_SCHEMA.COLUMNS
+    WHERE
+        TABLE_SCHEMA = 'nlc_library_init'
+        AND DATA_TYPE = 'json';
+
+```
+
 ## 参考
 
 1. https://github.com/pkumod/gStore
