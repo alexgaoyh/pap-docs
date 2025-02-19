@@ -33,6 +33,7 @@
     | --- | --- | --- | 
     | [思考-RBAC中对于权限编码部分的压缩处理](md/design/permission/rethink-rbac-permission-code.md) | [思考-RBAC中对于权限编码部分的压缩处理(RoaringBitmap)](md/design/permission/rethink-rbac-permission-code-RoaringBitmap.md) | [思考-使用JSON结构映射业务数据与数据库表结构](md/design/crud/rethink-crud-using-json.md) |
     | [思考 Openresty 上传与进度](md/design/upload/upload-with-openresty.md) | [思考 Openresty 静态资源访问控制](md/design/openresty/static-file-access-check.md) | [思考 Openresty 接口缓存](md/design/openresty/api-cache-in-openresty.md) |
+    | [记录 Openresty 中 Redis 的使用](md/design/openresty/redis-in-openresty.md) |  |  |
 - 中间件
   | 类型 |  |  |  |  |
   | --- | --- | --- | --- | --- |
