@@ -48,6 +48,7 @@
   | Lucene | [自定义分词器](md/lucene/combined-analyzer.md) | [基于Lucene8进行多值字段分组聚合(多属性字段)](md/lucene/multi-value-field-group-aggregation.md) | [基于Lucene8版本的逆向最大匹配分词器(依赖本地词典)](md/lucene/backward-maximum-matching-analyzer.md) | [自定义JSON属性值分词器](md/lucene/json-analyzer.md) |
   |  | [Lucene环境下基于NGram分词的中文高级检索](md/lucene/HighSearch-In-NGgram-Lucene.md) |  |  |  |
   | Mysql | [安装指南](md/database/mysql/install.md) |  |
+  | FTP | [安装指南](md/database/vsftp/install.md) |  |
   | JPA | [动态模型](md/jpa/Hibernate-dynamic-model.md) |  |
 - 杂谈
   | 详情 |  |  |  |  |

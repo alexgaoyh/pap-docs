@@ -95,6 +95,8 @@
         * [Lucene环境下基于NGram分词的中文高级检索](md/lucene/HighSearch-In-NGgram-Lucene.md)
     * Mysql
         * [安装指南](md/database/mysql/install.md)
+    * FTP
+        * [安装指南](md/database/vsftp/install.md)
     * JPA
         * [动态模型](md/jpa/Hibernate-dynamic-model.md)
 * 杂谈
