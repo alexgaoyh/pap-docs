@@ -31,24 +31,32 @@ sudo mkdir -p /mnt/mysql/tmp
 sudo mkdir -p /mnt/mysql/conf
 ```
 
-3. 设置目录权限
+3. 创建 MySQL 用户和组
 
 ```shell
-sudo chown -R mysql:mysql /mnt/mysql
-sudo chmod -R 755 /mnt/mysql
+sudo groupadd mysql
+sudo useradd -r -g mysql -s /bin/false mysql
+
 ```
 4. 安装依赖包
 
 ```shell
 sudo apt update
 sudo apt install libaio1 libncurses5 libtinfo5 libnuma1
+
+# Ubuntu 24.04   sudo apt install libaio1t64 libncurses6 libtinfo6 libnuma1
+# Ubuntu 24.04(Noble Numbat) 的一个变化： 老版本的 libaio1 包被废弃了。 新名字叫 libaio1t64，提供的是 libaio.so.1t64。 而 MySQL 官方的二进制 tar 包还是硬编码要找 libaio.so.1，所以直接报错。
+# 安装新库： sudo apt install libaio1t64
+# 创建兼容的软链接，让 libaio.so.1 指向新库 sudo ln -s /usr/lib/x86_64-linux-gnu/libaio.so.1t64 /usr/lib/x86_64-linux-gnu/libaio.so.1
+# （路径可能稍有不同，可以先 ls /usr/lib/x86_64-linux-gnu/ | grep libaio 确认实际文件名。）
+# 再次检查 MySQL 依赖： ldd /mnt/mysql/bin/mysqld | grep libaio  应该会显示： libaio.so.1 => /usr/lib/x86_64-linux-gnu/libaio.so.1t64 (0x00007f....)  这样 mysqld 就能启动了。
 ```
 
-5. 创建 MySQL 用户和组
+5. 设置目录权限
 
 ```shell
-sudo groupadd mysql
-sudo useradd -r -g mysql -s /bin/false mysql
+sudo chown -R mysql:mysql /mnt/mysql
+sudo chmod -R 755 /mnt/mysql
 ```
 
 6. 创建配置文件 /mnt/mysql/conf/my.cnf：
@@ -94,7 +102,7 @@ sudo -u mysql bin/mysqld --defaults-file=/mnt/mysql/conf/my.cnf --initialize --u
 ```shell
 sudo cat /mnt/mysql/logs/mysql-error.log
 ```
-查找类似以下内容：A temporary password is generated for root@localhost: 9q>XwNrkd3w)
+查找类似以下内容：A temporary password is generated for root@localhost: 9q>XwNrkd3w)         KJA-pl67j<By
 
 9. 启动 MySQL
 
