@@ -83,5 +83,6 @@ sudo systemctl status vsftpd
 
 ```shell
 sudo chown -R bj:bj /home/bj
-sudo chmod -R 755 /home/bj
+# vsftpd 要求根目录不能有写权限，755 的操作可以忽略
+# sudo chmod -R 755 /home/bj
 ```
