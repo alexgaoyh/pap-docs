@@ -85,4 +85,10 @@ sudo systemctl status vsftpd
 sudo chown -R bj:bj /home/bj
 # vsftpd 要求根目录不能有写权限，755 的操作可以忽略
 # sudo chmod -R 755 /home/bj
+
+# 现在根目录不能写了，用户无法上传文件。这是为了安全，但我们也需要提供上传功能。标准的做法是在根目录下创建一个拥有写权限的子目录，例如 upload
+# sudo mkdir /home/bj/upload
+# 将这个子目录的所有权和权限设置为可写
+# sudo chown bj:bj /home/bj/upload
+# sudo chmod 770 /home/bj/upload # 或者 755，根据你的用户/组需求
 ```
