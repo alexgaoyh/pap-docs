@@ -127,6 +127,40 @@ local function mysql_query(sql_query)
     return res
 end
 
+-- 判断字符串是否为JSON格式
+local function is_json_string(str)
+    if type(str) ~= "string" then
+        return false
+    end
+    -- 简单的JSON格式检测
+    local trimmed = str:match("^%s*(.-)%s*$")
+    return (trimmed:sub(1,1) == "[" and trimmed:sub(-1) == "]") or 
+           (trimmed:sub(1,1) == "{" and trimmed:sub(-1) == "}")
+end
+
+-- 处理所有可能包含JSON字符串的字段，将其转换为Lua table
+local function process_json_fields(result)
+    if not result or #result == 0 then
+        return result
+    end
+    
+    for _, row in ipairs(result) do
+        for key, value in pairs(row) do
+            if type(value) == "string" and is_json_string(value) then
+                -- 尝试解析JSON字符串
+                local ok, parsed_json = pcall(cjson.decode, value)
+                if ok then
+                    row[key] = parsed_json
+                else
+                    -- 如果解析失败，保持原样
+                    ngx.log(ngx.WARN, "Failed to parse JSON field '", key, "': ", value)
+                end
+            end
+        end
+    end
+    return result
+end
+
 -- 执行查询
 local res, err = mysql_query(sql)
 if not res then
@@ -138,12 +172,15 @@ if not res then
     return
 end
 
+-- 处理所有JSON字段
+local processed_res = process_json_fields(res)
+
 -- 返回查询结果
 ngx.say(cjson.encode({
 	code = 200,
     success = true,
-    data = res,
-    count = #res
+    data = processed_res,
+    count = #processed_res
 }))
 ```
 
@@ -152,6 +189,24 @@ curl --location 'http://127.0.0.1:9874/api/query' \
 --header 'Content-Type: application/json' \
 --data '{
     "sql": "SELECT * FROM t_student;"
+}'
+
+# 这里添加一下额外的支持， 比如查询结果是一个一对多的数据对象，那么在数据返回的时候，也要正确的展示出来对象的结构。
+curl --location 'http://127.0.0.1:9874/api/query' \
+--header 'Content-Type: application/json' \
+--data '{
+    "sql": "SELECT 
+    dd.DICT_ID, dd.DICT_CODE, dd.DICT_NAME,
+    JSON_ARRAYAGG(
+        JSON_OBJECT(
+            '\''DICT__DETAIL_ID'\'', ddd.DICT__DETAIL_ID,
+            '\''DICT__DETAIL_CODE'\'', ddd.DICT__DETAIL_CODE,
+            '\''DICT__DETAIL_NAME'\'', ddd.DICT__DETAIL_NAME
+        )
+    ) AS details
+FROM t_data_dict dd
+LEFT JOIN t_data_dict_detail ddd ON dd.DICT_ID = ddd.DICT_ID
+GROUP BY dd.DICT_ID, dd.DICT_CODE, dd.DICT_NAME;"
 }'
 ```
 
