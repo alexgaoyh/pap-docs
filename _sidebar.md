@@ -54,6 +54,7 @@
   * [思考 Openresty 静态资源访问控制](md/design/openresty/static-file-access-check.md)
   * [思考 Openresty 接口缓存](md/design/openresty/api-cache-in-openresty.md)
   * [记录 Openresty 中 Redis 的使用](md/design/openresty/redis-in-openresty.md)
+  * [记录 Openresty 中 Mysql 的使用](md/design/openresty/mysql-in-openresty.md)
 * 中间件
     * [图数据库](/md/database/database.md)
       * [gStore1.2在Ubuntu和Java环境下的安装与试用](md/database/gStore/gStore-install-simple-using.md)
