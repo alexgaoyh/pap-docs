@@ -90,6 +90,12 @@ sudo vim /mnt/mysql/conf/my.cnf
     socket=/mnt/mysql/mysql.sock
 ```
 
+```shell
+# 可能需要进行格式的转换
+sudo apt install dos2unix
+dos2unix /mnt/mysql/conf/my.cnf
+```
+
 7. 初始化 MySQL
 
 ```shell
