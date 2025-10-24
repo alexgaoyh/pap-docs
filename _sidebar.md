@@ -97,6 +97,8 @@
         * [Lucene环境下基于NGram分词的中文高级检索](md/lucene/HighSearch-In-NGgram-Lucene.md)
     * Mysql
         * [安装指南](md/database/mysql/install.md)
+    * Dameng
+        * [安装指南](md/database/dameng/install.md)
     * FTP
         * [安装指南](md/database/vsftp/install.md)
     * JPA
