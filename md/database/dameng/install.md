@@ -95,7 +95,23 @@ cd /home/dmdba/dmdbms/bin
 export DM_HOME=/home/dmdba/dmdbms/
 export PATH=$DM_HOME/bin:$DM_HOME/tool:$PATH
 export LD_LIBRARY_PATH=$DM_HOME/bin:$DM_HOME/lib:$LD_LIBRARY_PATH
-
-
 ```
 
+6. 创建用户和赋权
+
+```sql
+-- 创建用户
+CREATE USER dmtest1 IDENTIFIED BY "Dameng123";
+-- 授予创建会话（连接数据库）的权限
+GRANT CREATE SESSION TO dmtest1;
+
+-- 授予在自身模式（dmtest1）下创建表的权限
+GRANT CREATE TABLE TO dmtest1;
+
+-- 授予在自身模式下创建视图、索引、存储过程等对象的权限（按需授予）
+GRANT CREATE VIEW, CREATE INDEX, CREATE PROCEDURE TO dmtest1;
+
+-- 非常重要：授予该用户对其模式下的表空间配额
+-- 这里假设使用 MAIN 表空间，允许无限制使用
+ALTER USER dmtest1 QUOTA UNLIMITED ON MAIN;
+```
