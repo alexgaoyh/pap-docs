@@ -181,12 +181,44 @@ sudo make install
 cd ..
 
 # ===============================================================
+# 如上 imagemagick 构建的时候，有可能还是依赖到例如 libc.so 的地方，所以可以将 rm -rf /usr/local/x86_64-linux-musl/x86_64-linux-musl/lib/libc.so 删除。
+
+
+# imagemagick 的 configure 检测逻辑对 libpng / libtiff 非常固执 —— 即使你写了 --with-png=yes，它仍会执行： checking for libpng >= 1.0.0 
+# 并通过 pkg-config 或 libpng-config 来确认可用性。 如果找不到这些辅助脚本，它就直接认为 “no”，不会用你手动提供的 LIBS。 所以可以增加如下的文件，便于找到。
+#  /usr/local/libpng-static/lib/pkgconfig/libpng.pc   需要有如下内容
+#         prefix=/usr/local/libpng-static
+#         exec_prefix=${prefix}
+#         libdir=${exec_prefix}/lib
+#         includedir=${prefix}/include/libpng16
+
+#         Name: libpng
+#         Description: Loads and saves PNG files
+#         Version: 1.6.44
+#         Requires.private: zlib
+#         Libs: -L${libdir} -lpng16
+#         Libs.private: -lz
+#         Cflags: -I${includedir}
+
+# 验证方式是： 
+# pkg-config --exists libtiff-4 && echo "libtiff detected OK"
+# pkg-config --exists libjpeg && echo "libjpeg detected OK"
+# pkg-config --exists zlib && echo "zlib detected OK"
+
+# ===============================================================
+
+
+# ===============================================================
 # 5. ImageMagick
 # ===============================================================
 echo "=== 构建 ImageMagick ${IMAGEMAGICK_VERSION} ==="
 check_file ${PKG_DIR}/ImageMagick-${IMAGEMAGICK_VERSION}.zip
 unzip ${PKG_DIR}/ImageMagick-${IMAGEMAGICK_VERSION}.zip
 cd ImageMagick-${IMAGEMAGICK_VERSION}
+
+# 修复 pkg-config 路径，确保能检测到 libpng/libtiff
+export PKG_CONFIG_PATH=${PREFIX_BASE}/zlib-static/lib/pkgconfig:${PREFIX_BASE}/libpng-static/lib/pkgconfig:${PREFIX_BASE}/jpeg-static/lib/pkgconfig:${PREFIX_BASE}/tiff-static/lib/pkgconfig:$PKG_CONFIG_PATH
+export PKG_CONFIG_LIBDIR="$PKG_CONFIG_PATH"
 
 # Configure 阶段全静态链接
 ./configure CC=$CC CXX=$CXX \
@@ -211,6 +243,11 @@ LDFLAGS="-L${PREFIX_BASE}/zlib-static/lib \
 -L${PREFIX_BASE}/jpeg-static/lib \
 -L${PREFIX_BASE}/tiff-static/lib \
 -static -static-libgcc -static-libstdc++ -Wl,-Bstatic" \
+LIBPNG_CFLAGS="-I${PREFIX_BASE}/libpng-static/include" \
+LIBPNG_LIBS="-L${PREFIX_BASE}/libpng-static/lib -lpng16 -lz" \
+LIBTIFF_CFLAGS="-I${PREFIX_BASE}/tiff-static/include" \
+LIBTIFF_LIBS="-L${PREFIX_BASE}/tiff-static/lib -ltiff -lz" \
+LIBS="-lpng16 -lz -ljpeg -ltiff" \
 --prefix=${PREFIX_BASE}/imagemagick-static
 
 make -j$MAKE_JOBS
@@ -225,9 +262,5 @@ readelf -d ${PREFIX_BASE}/imagemagick-static/bin/magick | grep INTERP || echo "�
 readelf -d ${PREFIX_BASE}/imagemagick-static/bin/magick | grep NEEDED || echo "✅ 没有 NEEDED -> 全静态"
 
 echo "=== 输出路径: ${PREFIX_BASE}/imagemagick-static/bin/magick ==="
-
-# ===============================================================
-# 如上imagemagick构建的时候，有可能还是依赖到例如 libc.so 的地方，所以可以将 rm -rf /usr/local/x86_64-linux-musl/x86_64-linux-musl/lib/libc.so 删除。
-# ===============================================================
 
 ```
