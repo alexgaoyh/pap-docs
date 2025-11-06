@@ -87,6 +87,7 @@ ZLIB_VERSION=1.3.1
 LIBPNG_VERSION=1.6.44
 LIBJPEG_TURBO_VERSION=3.0.1
 LIBTIFF_VERSION=4.7.0
+FREETYPE_VERSION=2.13.2
 IMAGEMAGICK_VERSION=7.1.2-7
 
 MUSL_PREFIX=/usr/local/x86_64-linux-musl
@@ -181,6 +182,32 @@ sudo make install
 cd ..
 
 # ===============================================================
+# 5. freetype
+# ===============================================================
+echo "=== 构建 freetype ${FREETYPE_VERSION} ==="
+check_file ${PKG_DIR}/freetype-${FREETYPE_VERSION}.tar.gz
+tar -xf ${PKG_DIR}/freetype-${FREETYPE_VERSION}.tar.gz
+cd freetype-${FREETYPE_VERSION}
+
+CPPFLAGS="-I${PREFIX_BASE}/freetype-static/include" \
+LDFLAGS="-L${PREFIX_BASE}/freetype-static/lib -static" \
+./configure \
+  --host=x86_64-linux-musl \
+  --enable-static \
+  --disable-shared \
+  --without-bzip2 \
+  --without-png \
+  --without-harfbuzz \
+  --without-brotli \
+  --prefix=${PREFIX_BASE}/freetype-static \
+  CC=${PREFIX_BASE}/x86_64-linux-musl/bin/x86_64-linux-musl-gcc
+
+make -j${MAKE_JOBS}
+sudo make install
+cd ..
+
+
+# ===============================================================
 # 如上 imagemagick 构建的时候，有可能还是依赖到例如 libc.so 的地方，所以可以将 rm -rf /usr/local/x86_64-linux-musl/x86_64-linux-musl/lib/libc.so 删除。
 
 
@@ -217,7 +244,7 @@ unzip ${PKG_DIR}/ImageMagick-${IMAGEMAGICK_VERSION}.zip
 cd ImageMagick-${IMAGEMAGICK_VERSION}
 
 # 修复 pkg-config 路径，确保能检测到 libpng/libtiff
-export PKG_CONFIG_PATH=${PREFIX_BASE}/zlib-static/lib/pkgconfig:${PREFIX_BASE}/libpng-static/lib/pkgconfig:${PREFIX_BASE}/jpeg-static/lib/pkgconfig:${PREFIX_BASE}/tiff-static/lib/pkgconfig:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=${PREFIX_BASE}/zlib-static/lib/pkgconfig:${PREFIX_BASE}/libpng-static/lib/pkgconfig:${PREFIX_BASE}/jpeg-static/lib/pkgconfig:${PREFIX_BASE}/tiff-static/lib/pkgconfig:${PREFIX_BASE}/freetype-static/lib/pkgconfig:$PKG_CONFIG_PATH
 export PKG_CONFIG_LIBDIR="$PKG_CONFIG_PATH"
 
 # Configure 阶段全静态链接
@@ -234,6 +261,9 @@ export PKG_CONFIG_LIBDIR="$PKG_CONFIG_PATH"
 --with-png=yes \
 --with-jpeg=yes \
 --with-tiff=yes \
+--with-freetype=yes \
+--with-freetype-includes=${PREFIX_BASE}/freetype-static/include/freetype2 \
+--with-freetype-lib=${PREFIX_BASE}/freetype-static/lib \
 CPPFLAGS="-I${PREFIX_BASE}/zlib-static/include \
 -I${PREFIX_BASE}/libpng-static/include \
 -I${PREFIX_BASE}/jpeg-static/include \
