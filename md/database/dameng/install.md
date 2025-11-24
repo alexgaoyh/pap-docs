@@ -78,7 +78,7 @@ cd /mnt/dm8
 sudo /home/dmdba/dmdbms/script/root/root_installer.sh
 # 如果数据目录为空或不存在，需要初始化
 cd /home/dmdba/dmdbms/bin
-./dminit path=/opt/dm8/data db_name=DAMENG instance_name=DMSERVER port_num=5236 SYSDBA_PWD=Dameng123 SYSAUDITOR_PWD=Dameng123
+./dminit path=/opt/dm8/data db_name=DAMENG instance_name=DMSERVER port_num=5236 SYSDBA_PWD=Dameng123 SYSAUDITOR_PWD=Dameng123 CASE_SENSITIVE=0
 # 初始化成功后的验证 检查数据文件是否生成 应该看到以下文件： dm.ini, dm.ctl, SYSTEM.dbf, ROLL.dbf, MAIN.dbf 等
 ls -la /opt/dm8/data/DAMENG/
 # 直接启动数据库
@@ -114,4 +114,24 @@ GRANT CREATE VIEW, CREATE INDEX, CREATE PROCEDURE TO dmtest1;
 -- 非常重要：授予该用户对其模式下的表空间配额
 -- 这里假设使用 MAIN 表空间，允许无限制使用
 ALTER USER dmtest1 QUOTA UNLIMITED ON MAIN;
+```
+
+7. 大小写敏感
+
+```shell
+
+# 执行备份命令: 在数据库服务正常运行的情况下，使用命令行工具执行备份。
+
+cd /home/dmdba/dmdbms/bin
+mkdir /mnt/dmbackup
+./dexp USERID=SYSDBA/Dameng123@localhost:5236 FILE=db_full_backup.dmp LOG=dexp.log DIRECTORY=/mnt/dmbackup FULL=Y
+
+# 停止数据库， 备份并清理原数据文件
+
+tar -czf /mnt/dmbackup/old_data_backup.tar.gz /opt/dm8/data/DAMENG
+rm -rf /opt/dm8/data/DAMENG
+
+# 使用正确参数重新初始化 大小写不敏感
+./dminit path=/opt/dm8/data db_name=DAMENG instance_name=DMSERVER port_num=5236 SYSDBA_PWD=Dameng123 SYSAUDITOR_PWD=Dameng123 CASE_SENSITIVE=0
+
 ```
