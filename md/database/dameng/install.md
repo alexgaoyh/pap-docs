@@ -111,6 +111,9 @@ GRANT CREATE TABLE TO dmtest1;
 -- 授予在自身模式下创建视图、索引、存储过程等对象的权限（按需授予）
 GRANT CREATE VIEW, CREATE INDEX, CREATE PROCEDURE TO dmtest1;
 
+-- 或者授予所有系统表的查询权限
+GRANT SELECT ANY TABLE TO dmtest1;
+
 -- 非常重要：授予该用户对其模式下的表空间配额
 -- 这里假设使用 MAIN 表空间，允许无限制使用
 ALTER USER dmtest1 QUOTA UNLIMITED ON MAIN;
