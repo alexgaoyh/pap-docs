@@ -288,7 +288,7 @@ sudo make install
 # ===============================================================
 echo "=== 验证 ImageMagick 是否全静态 ==="
 file ${PREFIX_BASE}/imagemagick-static/bin/magick
-readelf -d ${PREFIX_BASE}/imagemagick-static/bin/magick | grep INTERP || echo "✅ 无 INTERP 段 -> 全静态"
+readelf -l ${PREFIX_BASE}/imagemagick-static/bin/magick | grep INTERP || echo "✅ 无 INTERP 段 -> 全静态"
 readelf -d ${PREFIX_BASE}/imagemagick-static/bin/magick | grep NEEDED || echo "✅ 没有 NEEDED -> 全静态"
 
 echo "=== 输出路径: ${PREFIX_BASE}/imagemagick-static/bin/magick ==="
