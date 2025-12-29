@@ -8,7 +8,7 @@ sudo rm -rf /usr/local/aarch64-linux-musl
 ```shell
 sudo apt update
 sudo apt upgrade
-sudo apt install -y build-essential autoconf automake libtool pkg-config git libjpeg-dev libpng-dev libtiff-dev zlib1g-dev musl musl-tools cmake unzip gawk curl
+sudo apt install -y build-essential autoconf automake libtool pkg-config git libjpeg-dev libpng-dev libtiff-dev zlib1g-dev musl musl-tools cmake unzip gawk curl zip unzip dos2unix
 
 cd /tmp
 git clone https://github.com/richfelker/musl-cross-make.git
