@@ -45,6 +45,42 @@ pasv_max_port=30005
 1. 使用 yum 而不是 apt 命令进行安装(原因未知，怀疑是三方镜像问题)；
 2. 阿里云上/etc/vsftpd.conf 文件的写入权限默认是开启的，并且未配置编码和被动模式；
 
+### kylin 500 OOPS: priv_sock_get_cmd  
+
+&ensp;&ensp;在某些 Kylin 老内核环境里：IPv6 socket 初始化失败，但系统没有 IPv6 支持，vsftpd 启动后特权进程通信异常，最终报： 500 OOPS: priv_sock_get_cmd
+
+&ensp;&ensp; Linux alexgaoyh-pc 5.4.18-80-generic #69-KYLINOS SMP Thu Feb 9 08:07:32 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
+
+```properties
+listen=YES
+listen_ipv6=NO
+
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+local_umask=022
+
+dirmessage_enable=YES
+use_localtime=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+
+chroot_local_user=YES
+allow_writeable_chroot=YES
+secure_chroot_dir=/var/run/vsftpd/empty
+
+pam_service_name=vsftpd
+
+ssl_enable=NO
+utf8_filesystem=YES
+
+pasv_enable=YES
+pasv_min_port=30000
+pasv_max_port=40000
+
+vsftpd_log_file=/var/log/vsftpd.log
+```
+
 ### FtpClient(commons-net)
 
 &ensp;&ensp;作者在使用java语言进行FTP测试的时候，出现无法查看目录、文件等问题
